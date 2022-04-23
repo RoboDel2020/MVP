@@ -30,20 +30,25 @@ CREATE TABLE Customer (
 );
 
 CREATE TABLE Restaurant (
- ID int UNSIGNED NOT NULL AUTO_INCREMENT,
  Email varchar(50),
  Password varchar(50),
  Name varchar(100) NOT NULL,
  Type varchar(20),
  Price decimal(10, 2),
+ Status varchar(20),
+ PhoneNumber varchar(20),
  Address varchar(100) NOT NULL,
  City varchar(50) NOT NULL,
  State char(20),
+ Zip char(15),
  Country char(20) NOT NULL,
  Longitude decimal(10, 6),
  Latitude decimal(10, 6),
- PRIMARY KEY (ID)
+ PRIMARY KEY (Email)
 );
+
+INSERT INTO Restaurant
+VALUES("rest001@gmail.com","pass001", "Subway","FastFood",2.5,"active","6085245457","1401 University Ave","Madison","WI","53715", "US", 43.073148, -89.409090);
  
 CREATE TABLE User (
  Username varchar(50) NOT NULL,

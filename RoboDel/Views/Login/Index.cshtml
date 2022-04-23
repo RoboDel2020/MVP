@@ -58,6 +58,13 @@
                                     <button class="send_btn" type="button" onclick="RegisterUser()">Register</button>
                                 </div>
                             </div>
+                            <br>
+                            <h2>Restaurants</h2>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <button class="send_btn" type="button" onclick="LoginAsARestaurant()">Login as a Restaurant</button>
+                                </div>
+                            </div>
 
                         </form>
                     </div>
@@ -98,6 +105,20 @@
                 data: {},
                 success: function (data) {
                     window.location.href = '/Register/Index';
+                }
+            });
+        }
+
+        @* Go to Login as a Restaurant Page *@
+        function LoginAsARestaurant() {
+            $.ajax({
+                type: "POST",
+                url: "/Restaurant/GoToLoginAsARestaurant",
+                async: true,
+                dataType: "json",
+                data: {},
+                success: function (data) {
+                    window.location.href = '/RestaurantLogin/Index';
                 }
             });
         }

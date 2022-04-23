@@ -13,9 +13,13 @@
   <ItemGroup>
     <None Remove="Views\UpdateUser\" />
     <None Remove="Views\Shared\" />
+    <None Remove="Views\Restaurant\" />
+    <None Remove="Views\RestaurantLogin\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\UpdateUser\" />
     <Folder Include="Views\Shared\" />
+    <Folder Include="Views\Restaurant\" />
+    <Folder Include="Views\RestaurantLogin\" />
   </ItemGroup>
 </Project>
