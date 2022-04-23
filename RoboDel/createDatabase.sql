@@ -100,6 +100,8 @@ CREATE TABLE UserRole (
 CREATE TABLE `Order` (
   ID int UNSIGNED NOT NULL AUTO_INCREMENT,
   DateTime datetime NOT NULL,
+  PickupTime datetime NOT NULL,
+  ReadyForPickup bool NOT NULL,
   Status varchar(20) NOT NULL,
   Longitude decimal(11, 8),
   Latitude decimal(10, 8),
@@ -110,12 +112,12 @@ CREATE TABLE `Order` (
   FOREIGN KEY (CustomerID) REFERENCES Customer (ID)
 );
 
-INSERT INTO `Order`(DateTime, Status, Longitude, Latitude, RestaurantEmail, CustomerID)
-VALUES(NOW(),"pending", 43.0718530746374, -89.39687374871734, "rest001@gmail.com",1);
-INSERT INTO `Order`(DateTime, Status, Longitude, Latitude, RestaurantEmail, CustomerID)
-VALUES(NOW(),"pending", 43.06485559171917, -89.41740470312469, "rest001@gmail.com",3);
-INSERT INTO `Order`(DateTime, Status, Longitude, Latitude, RestaurantEmail, CustomerID)
-VALUES(NOW(),"pending", 43.05896571575645, -89.40065873664759, "rest002@gmail.com",2);
+INSERT INTO `Order`(DateTime, PickupTime, ReadyForPickup,  Status, Longitude, Latitude, RestaurantEmail, CustomerID)
+VALUES(NOW(), DATE_ADD(NOW(), INTERVAL 1 HOUR),FALSE,"pending", 43.0718530746374, -89.39687374871734, "rest001@gmail.com",1);
+INSERT INTO `Order`(DateTime, PickupTime, ReadyForPickup, Status, Longitude, Latitude, RestaurantEmail, CustomerID)
+VALUES(NOW(),DATE_ADD(NOW(), INTERVAL 1.5 HOUR),FALSE,"pending", 43.06485559171917, -89.41740470312469, "rest001@gmail.com",3);
+INSERT INTO `Order`(DateTime, PickupTime, ReadyForPickup, Status, Longitude, Latitude, RestaurantEmail, CustomerID)
+VALUES(NOW(),DATE_ADD(NOW(), INTERVAL 2 HOUR),FALSE,"pending", 43.05896571575645, -89.40065873664759, "rest002@gmail.com",2);
 
 
 CREATE TABLE Courier (

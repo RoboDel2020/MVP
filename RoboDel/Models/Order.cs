@@ -10,6 +10,8 @@ namespace RoboDel.Models
 
         public int ID { get; set; }
         public DateTime DateTime { get; set; }
+        public DateTime PickupTime { get; set; }
+        public bool ReadyForPickup { get; set; }
         public string Status { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }

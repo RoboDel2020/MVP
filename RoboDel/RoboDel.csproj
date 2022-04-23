@@ -20,6 +20,7 @@
     <None Remove="Views\ViewCustomer\" />
     <None Remove="Views\ViewOrder\" />
     <None Remove="Views\Robot\" />
+    <None Remove="Views\AddOrder\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\UpdateUser\" />
@@ -31,5 +32,6 @@
     <Folder Include="Views\ViewCustomer\" />
     <Folder Include="Views\ViewOrder\" />
     <Folder Include="Views\Robot\" />
+    <Folder Include="Views\AddOrder\" />
   </ItemGroup>
 </Project>

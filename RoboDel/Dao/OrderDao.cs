@@ -23,7 +23,7 @@ namespace RoboDel.Dao
                 try
                 {
                     conn.Open();
-                    string query = "SELECT o.ID as OrderID, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress,c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
+                    string query = "SELECT o.ID as OrderID,o.PickupTime as OrderPickupTime, o.ReadyForPickup as OrderReadyForPickup, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress,c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
                                    "FROM `Order` o JOIN Restaurant r ON o.RestaurantEmail = r.Email JOIN Customer c ON c.ID = o.CustomerID ORDER BY o.DateTime; ";
                     
                     MySqlCommand command = new MySqlCommand(query, conn);
@@ -36,6 +36,8 @@ namespace RoboDel.Dao
 
                         order.ID = Int16.Parse(reader.GetString("OrderID"));
                         order.DateTime = DateTime.Parse(reader.GetString("OrderDateTime"));
+                        order.PickupTime = DateTime.Parse(reader.GetString("OrderPickupTime"));
+                        order.ReadyForPickup = bool.Parse(reader.GetString("OrderReadyForPickup"));
                         order.Status = reader.GetString("OrderStatus");
                         order.Longitude = double.Parse(reader.GetString("OrderLongitude"));
                         order.Latitude = double.Parse(reader.GetString("OrderLatitude"));
@@ -103,6 +105,8 @@ namespace RoboDel.Dao
                         {
                             order.ID = Int16.Parse(row["ID"].ToString());
                             order.DateTime = DateTime.Parse(row["DateTime"].ToString());
+                            order.PickupTime = DateTime.Parse(row["PickupTime"].ToString());
+                            order.ReadyForPickup = bool.Parse(row["ReadyForPickup"].ToString());
                             order.Status = row["Status"].ToString();
                             restaurant.Email = row["RestaurantEmail"].ToString();
                             customer.ID = Int16.Parse(row["CustomerID"].ToString());
