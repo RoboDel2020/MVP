@@ -1,0 +1,101 @@
+﻿<h1>Restaurant Details</h1>
+<br >
+<table class="table table-striped">
+    <tr>
+        <td><b>Name</b></td>
+        <td>@ViewBag.restaurant.Name</td>
+    </tr>
+    <tr>
+        <td><b>Email</b></td>
+        <td>@ViewBag.restaurant.Email</td>
+    </tr>
+    <tr>
+        <td><b>Status</b></td>
+        <td>@ViewBag.restaurant.Status</td>
+    </tr>
+
+    @try
+    {
+        if (@ViewBag.restaurant.Type.Length >= 1)
+        {
+            <tr>
+                <td><b>Type</b></td>
+                <td>@ViewBag.restaurant.Type</td>
+            </tr>
+        }
+    }
+    catch (Exception e)
+    { }
+
+    @try
+    {
+        if (@ViewBag.restaurant.PhoneNumber.Length >= 1)
+        {
+            <tr>
+                <td><b>Phone Number</b></td>
+                <td>@ViewBag.restaurant.PhoneNumber</td>
+            </tr>
+        }
+    }
+    catch (Exception e)
+    { }
+
+    <tr>
+        <td><b>Full Address</b></td>
+        <td>@ViewBag.restaurant.Address @ViewBag.restaurant.City @ViewBag.restaurant.State @ViewBag.restaurant.Zip @ViewBag.restaurant.Country</td>
+    </tr>
+
+    @try
+    {
+        if (@ViewBag.restaurant.Price >= 0)
+        {
+            <tr>
+                <td><b>Price</b></td>
+                <td>@ViewBag.restaurant.Price</td>
+            </tr>
+        }
+    }
+    catch (Exception e)
+    { }
+
+    @try
+    {
+        if (@ViewBag.restaurant.Longitude >= -100000)
+        {
+            <tr>
+                <td><b>Longitude</b></td>
+                <td>@ViewBag.restaurant.Longitude</td>
+            </tr>
+        }
+    }
+    catch (Exception e)
+    { }
+
+    @try
+    {
+        if (@ViewBag.restaurant.Latitude >= -100000)
+        {
+            <tr>
+                <td><b>Latitude</b></td>
+                <td>@ViewBag.restaurant.Latitude</td>
+            </tr>
+        }
+    }
+    catch (Exception e)
+    { }
+</table>
+
+
+
+</script>
+<!-- end contact -->
+<!-- Javascript files-->
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/jquery-3.0.0.min.js"></script>
+<script src="~/js/plugin.js"></script>
+<!-- sidebar -->
+<script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="~/js/custom.js"></script>
+<script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
