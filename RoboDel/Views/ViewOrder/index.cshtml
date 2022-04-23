@@ -1,0 +1,64 @@
+﻿<h1>Order Details</h1>
+<br >
+<table class="table table-striped">
+    <tr>
+        <td><b>Order ID</b></td>
+        <td>@ViewBag.order.ID</td>
+    </tr>
+    <tr>
+        <td><b>Received At</b></td>
+        <td>@ViewBag.order.DateTime</td>
+    </tr>
+    <tr>
+        <td><b>Status</b></td>
+        <td>@ViewBag.order.Status</td>
+    </tr>
+    <tr>
+        <td><b>Restaurant Email</b></td>
+        <td>@ViewBag.order.Restaurant.Email</td>
+    </tr>
+    <tr>
+        <td><b>Customer ID</b></td>
+        <td>@ViewBag.order.Customer.ID</td>
+    </tr>
+    @try
+    {
+        if (@ViewBag.order.Longitude >= -100000)
+        {
+            <tr>
+                <td><b>Longitude</b></td>
+                <td>@ViewBag.order.Longitude</td>
+            </tr>
+        }
+    }
+    catch (Exception e)
+    { }
+
+    @try
+    {
+        if (@ViewBag.order.Latitude >= -100000)
+        {
+            <tr>
+                <td><b>Latitude</b></td>
+                <td>@ViewBag.order.Latitude</td>
+            </tr>
+        }
+    }
+    catch (Exception e)
+    { }
+</table>
+
+
+
+</script>
+<!-- end contact -->
+<!-- Javascript files-->
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/jquery-3.0.0.min.js"></script>
+<script src="~/js/plugin.js"></script>
+<!-- sidebar -->
+<script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="~/js/custom.js"></script>
+<script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>

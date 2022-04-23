@@ -98,6 +98,13 @@
 
 </div>
 
+<h2>View all Orders</h2>
+<div class="row">
+    <div class="col-sm-6">
+        <button class="send_btn" type="button" onclick="AllOrders()">All Orders</button>
+    </div>
+</div>
+
 
 
 
@@ -116,7 +123,20 @@
         });
     }
 
-   
+    function AllOrders() {
+        $.ajax({
+            type: "POST",
+            url: "/Order/GoToAllOrders",
+            async: true,
+            dataType: "json",
+            data: {},
+            success: function (data) {
+                window.location.href = '/Order/Index';
+            }
+        });
+    }
+
+
 
     @* Update user info *@
     function UpdateInfo() {

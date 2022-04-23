@@ -1,0 +1,46 @@
+﻿<h1>Customer Details</h1>
+<br >
+<table class="table table-striped">
+    <tr>
+        <td><b>Full Name</b></td>
+        <td>@ViewBag.customer.FirstName @ViewBag.customer.LastName</td>
+    </tr>
+
+    <tr>
+        <td><b>Phone Number</b></td>
+        <td>@ViewBag.customer.PhoneNumber</td>
+    </tr>
+
+    @try
+    {
+        if (@ViewBag.customer.Email.Length >= 1)
+        {
+            <tr>
+                <td><b>Email</b></td>
+                <td>@ViewBag.customer.Email</td>
+            </tr>
+        }
+    }
+    catch (Exception e)
+    { }
+
+    <tr>
+        <td><b>Full Address</b></td>
+        <td>@ViewBag.customer.Address @ViewBag.customer.City @ViewBag.customer.State @ViewBag.customer.Zip @ViewBag.customer.Country</td>
+    </tr>
+</table>
+
+
+
+</script>
+<!-- end contact -->
+<!-- Javascript files-->
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/jquery-3.0.0.min.js"></script>
+<script src="~/js/plugin.js"></script>
+<!-- sidebar -->
+<script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="~/js/custom.js"></script>
+<script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>

@@ -153,7 +153,7 @@ namespace RoboDel.Dao
 
             return restaurant;
         }
-       
+
 
         //public User GetRegisteredInfoByEmail(string userEmail, out string error)
         //{
@@ -247,5 +247,87 @@ namespace RoboDel.Dao
         //        }
         //    }
         //}
+
+        
+        public Restaurant GetRestaurantDetails(string restaurantEmail, out string error)
+        {
+            error = string.Empty;
+            Restaurant restaurant = new Restaurant();
+
+            using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = "SELECT * FROM Restaurant " +
+                                            $"WHERE Email ='{restaurantEmail}';";
+                    MySqlCommand command = new MySqlCommand(query, conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    DataTable dt = new DataTable();
+                    dt.Load(reader);
+                    int numberOfResults = dt.Rows.Count;
+                    if (numberOfResults == 1)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            restaurant.Email = row["Email"].ToString();
+                            restaurant.Name = row["Name"].ToString();
+                            restaurant.Address = row["Address"].ToString();
+                            restaurant.City = row["City"].ToString();
+                            restaurant.Country = row["Country"].ToString();
+                            if (row["Type"] != DBNull.Value)
+                            {
+                                restaurant.Type = row["Type"].ToString();
+                            }
+                            if (row["Price"] != DBNull.Value)
+                            {
+                                restaurant.Price = Double.Parse(row["Price"].ToString());
+                            }
+                            if (row["Status"] != DBNull.Value)
+                            {
+                                restaurant.Status = row["Status"].ToString();
+                            }
+                            if (row["PhoneNumber"] != DBNull.Value)
+                            {
+                                restaurant.PhoneNumber = row["PhoneNumber"].ToString();
+                            }
+                            if (row["State"] != DBNull.Value)
+                            {
+                                restaurant.State = row["State"].ToString();
+                            }
+                            if (row["Zip"] != DBNull.Value)
+                            {
+                                restaurant.Zip = row["Zip"].ToString();
+                            }
+                            if (row["Latitude"] != DBNull.Value)
+                            {
+                                restaurant.Latitude = Double.Parse(row["Latitude"].ToString());
+                            }
+                            if (row["Longitude"] != DBNull.Value)
+                            {
+                                restaurant.Longitude = Double.Parse(row["Longitude"].ToString());
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        restaurant = null;
+                        error = "Didn’t enter correct email for the restaurant";
+
+                    }
+                    reader.Close();
+
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Failed to get restaurantwith email address {e.Message}");
+                    error = "Didn’t enter correct email address for restaurant";
+                    restaurant = null;
+                }
+            }
+
+            return restaurant;
+        }
     }
 }
