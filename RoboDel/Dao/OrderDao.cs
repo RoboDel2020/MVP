@@ -92,7 +92,6 @@ namespace RoboDel.Dao
                     conn.Open();
                     string query = "SELECT * " +
                                    $"FROM `Order` o WHERE o.ID = '{orderID}'; ";
-                    Console.WriteLine("C_________3");
                     MySqlCommand command = new MySqlCommand(query, conn);
                     MySqlDataReader reader = command.ExecuteReader();
                     DataTable dt = new DataTable();

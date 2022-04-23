@@ -19,6 +19,7 @@
     <None Remove="Views\ViewRestaurant\" />
     <None Remove="Views\ViewCustomer\" />
     <None Remove="Views\ViewOrder\" />
+    <None Remove="Views\Robot\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\UpdateUser\" />
@@ -29,5 +30,6 @@
     <Folder Include="Views\ViewRestaurant\" />
     <Folder Include="Views\ViewCustomer\" />
     <Folder Include="Views\ViewOrder\" />
+    <Folder Include="Views\Robot\" />
   </ItemGroup>
 </Project>

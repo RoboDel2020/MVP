@@ -26,7 +26,7 @@ CREATE TABLE Customer (
  City varchar(50) NOT NULL,
  State char(20),
  Zip char(20),
- Country char(20),
+ Country char(20) NOT NULL,
  PRIMARY KEY (ID)
 );
 
@@ -118,8 +118,51 @@ INSERT INTO `Order`(DateTime, Status, Longitude, Latitude, RestaurantEmail, Cust
 VALUES(NOW(),"pending", 43.05896571575645, -89.40065873664759, "rest002@gmail.com",2);
 
 
+CREATE TABLE Courier (
+ ID int UNSIGNED NOT NULL AUTO_INCREMENT,
+ PRIMARY KEY (ID)
+);
 
+INSERT INTO Courier
+VALUES();
+INSERT INTO Courier
+VALUES();
+INSERT INTO Courier
+VALUES();
+INSERT INTO Courier
+VALUES();
+INSERT INTO Courier
+VALUES();
 
+CREATE TABLE Robot (
+	CourierID int UNSIGNED NOT NULL,
+    StateOfRobot varchar(20) NOT NULL,
+	City varchar(50) NOT NULL,
+	State char(20),
+	Country char(20) NOT NULL,
+	UNIQUE (CourierID),
+	FOREIGN KEY (CourierID) REFERENCES Courier (ID)
+);
 
+INSERT INTO Robot
+VALUES(1,"active","Madison","WI","US");
+INSERT INTO Robot
+VALUES(3,"inactive","Madison","WI","US");
+INSERT INTO Robot
+VALUES(4,"active","Madison","WI","US");
+INSERT INTO Robot
+VALUES(5,"active","Madison","WI","US");
 
+CREATE TABLE HumanCourier (
+	CourierID int UNSIGNED NOT NULL,
+	Username varchar(50)  NOT NULL,
+	City varchar(50) NOT NULL,
+	State char(20),
+	Country char(20) NOT NULL,
+	UNIQUE (CourierID),
+	FOREIGN KEY (CourierID) REFERENCES Courier (ID),
+	FOREIGN KEY (Username) REFERENCES User (Username)
+);
+INSERT INTO HumanCourier
+VALUES(2,"username002","Madison","WI","US");
 
