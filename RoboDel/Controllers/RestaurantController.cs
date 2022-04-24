@@ -38,5 +38,12 @@ namespace RoboDel.Controllers
             HttpContext.Session.SetString("restaurant_name", "");
             return Json(new { errMsg = "" });
         }
+
+        public List<Restaurant> GetAllRestaurants()
+        {
+            RestaurantDao restaurantDao = new RestaurantDao();
+            List<Restaurant> allRestaurants = restaurantDao.GetAllRestaurants(out string error);
+            return allRestaurants;
+        }
     }
 }

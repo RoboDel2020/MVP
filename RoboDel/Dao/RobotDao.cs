@@ -38,7 +38,7 @@ namespace RoboDel.Dao
                         {
                             robot.State = reader.GetString("State"); ;
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         { }
                         robots.Add(robot);
                         Console.WriteLine(robot.CourierID);

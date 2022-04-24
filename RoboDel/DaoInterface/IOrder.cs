@@ -10,5 +10,6 @@ namespace RoboDel.DaoInterface
     {
         public List<Order> GetAllOrders(out string error);
         public Order GetOrderDetails(int orderID, out string error);
+        public bool AddOrder(String pickupTime, bool readyForPickup, string restaurantEmail, int customerID, out string error);
     }
 }

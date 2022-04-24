@@ -39,30 +39,94 @@ namespace RoboDel.Dao
                         order.PickupTime = DateTime.Parse(reader.GetString("OrderPickupTime"));
                         order.ReadyForPickup = bool.Parse(reader.GetString("OrderReadyForPickup"));
                         order.Status = reader.GetString("OrderStatus");
-                        order.Longitude = double.Parse(reader.GetString("OrderLongitude"));
-                        order.Latitude = double.Parse(reader.GetString("OrderLatitude"));
+                        try
+                        {
+                            order.Longitude = double.Parse(reader.GetString("OrderLongitude"));
+                        }
+                        catch (Exception)
+                        { }
+                        try
+                        {
+                            order.Latitude = double.Parse(reader.GetString("OrderLatitude"));
+                        }
+                        catch (Exception)
+                        { }
                         customer.ID = Int16.Parse(reader.GetString("CustomerID"));
                         customer.FirstName = reader.GetString("CustomerFirstName");
-                        customer.LastName = reader.GetString("CustomerLastName");
+                        try
+                        {
+                            customer.LastName = reader.GetString("CustomerLastName");
+                        }
+                        catch (Exception)
+                        { }
+                        
                         customer.PhoneNumber = reader.GetString("CustomerPhoneNumber");
-                        customer.Email = reader.GetString("CustomerEmail");
+                        try
+                        {
+                            customer.Email = reader.GetString("CustomerEmail");
+                        }
+                        catch (Exception)
+                        { }
+                        
                         customer.Address = reader.GetString("CustomerAddress");
                         customer.City = reader.GetString("CustomerCity");
-                        customer.State = reader.GetString("CustomerState");
-                        customer.Zip = reader.GetString("CustomerZip");
+                        try
+                        {
+                            customer.State = reader.GetString("CustomerState");
+                        }
+                        catch (Exception)
+                        { }
+                        
+                        try
+                        {
+                            customer.Zip = reader.GetString("CustomerZip");
+                        }
+                        catch (Exception)
+                        { }
+                        
                         customer.Country = reader.GetString("CustomerCountry");
                         restaurant.Name = reader.GetString("RestaurantName");
-                        restaurant.Type = reader.GetString("RestaurantType");
+                        try
+                        {
+                            restaurant.Type = reader.GetString("RestaurantType");
+                        }
+                        catch (Exception)
+                        { }
                         restaurant.Status = reader.GetString("RestaurantStatus");
-                        restaurant.PhoneNumber = reader.GetString("RestaurantPhoneNumber");
+                        try
+                        {
+                            restaurant.PhoneNumber = reader.GetString("RestaurantPhoneNumber");
+                        }
+                        catch (Exception)
+                        { }
                         restaurant.Address = reader.GetString("RestaurantAddress");
                         restaurant.City = reader.GetString("RestaurantCity");
-                        restaurant.State = reader.GetString("RestaurantState");
-                        restaurant.Zip = reader.GetString("RestaurantZip");
+                        try
+                        {
+                            restaurant.State = reader.GetString("RestaurantState");
+                        }
+                        catch (Exception)
+                        { }
+                        try
+                        {
+                            restaurant.Zip = reader.GetString("RestaurantZip");
+                        }
+                        catch (Exception)
+                        { }
                         restaurant.Country = reader.GetString("RestaurantCountry");
                         restaurant.Email = reader.GetString("RestaurantEmail");
-                        restaurant.Longitude = double.Parse(reader.GetString("RestaurantLongitude"));
-                        restaurant.Latitude = double.Parse(reader.GetString("RestaurantLatitude"));
+                        try
+                        {
+                            restaurant.Longitude = double.Parse(reader.GetString("RestaurantLongitude"));
+                        }
+                        catch (Exception)
+                        { }
+                        try
+                        {
+                            restaurant.Latitude = double.Parse(reader.GetString("RestaurantLatitude"));
+                        }
+                        catch (Exception)
+                        { }
                         order.Restaurant = restaurant;
                         order.Customer = customer;
                         orders.Add(order);
@@ -140,6 +204,35 @@ namespace RoboDel.Dao
             }
 
             return order;
+        }
+
+        public bool AddOrder(String pickupTime, bool readyForPickup, string restaurantEmail, int customerID, out string error)
+        {
+            error = string.Empty;
+
+            if (String.IsNullOrEmpty(pickupTime) || String.IsNullOrEmpty(restaurantEmail) || String.IsNullOrEmpty(customerID.ToString()))
+            {
+                error = "Not all values supplied. Could not add customer.";
+                return false;
+            }
+            using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
+            {
+                try
+                {
+                    conn.Open();
+                    string insert = "INSERT INTO `Order`(DateTime, PickupTime, ReadyForPickup,  Status, RestaurantEmail, CustomerID) " +
+                                    $"VALUES(NOW(),'{pickupTime}', {readyForPickup}, 'pending', '{restaurantEmail}', '{customerID}'); ";
+                    MySqlCommand command = new MySqlCommand(insert, conn);
+                    command.ExecuteNonQuery();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Database Error (Order): Cannot enter a new order in database {e.Message}");
+                    error = "Cannot enter a new order in database";
+                    return false;
+                }
+            }
         }
 
     }

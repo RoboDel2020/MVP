@@ -13,6 +13,7 @@ namespace RoboDel.DaoInterface
         public bool ValidateRestaurant(string emailInput, out string error);
         public Restaurant ValidatePassword(string email, string password, out string error);
         public Restaurant GetRestaurantDetails(string restaurantEmail, out string error);
+        public List<Restaurant> GetAllRestaurants(out string error);
         //public User GetRegisteredInfoByEmail(string userEmail, out string error);
         //public bool UpdateUserInfoByEmail(string email, string password, string nickname, string firstName, string lastName, string postalCode, out string error);
     }

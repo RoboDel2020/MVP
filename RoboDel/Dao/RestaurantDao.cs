@@ -329,5 +329,81 @@ namespace RoboDel.Dao
 
             return restaurant;
         }
+
+
+        public List<Restaurant> GetAllRestaurants(out string error)
+        {
+            error = string.Empty;
+            List<Restaurant> restaurants = new List<Restaurant>();
+
+            using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = "SELECT r.Email as RestaurantEmail, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude  " +
+                                   "FROM  Restaurant r  ORDER BY r.Name; ";
+
+                    MySqlCommand command = new MySqlCommand(query, conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Restaurant restaurant = new Restaurant();
+                        restaurant.Email = reader.GetString("RestaurantEmail");
+                        restaurant.Name = reader.GetString("RestaurantName");
+                        try
+                        {
+                            restaurant.Type = reader.GetString("RestaurantType");
+                        }
+                        catch (Exception)
+                        { }
+                        restaurant.Status = reader.GetString("RestaurantStatus");
+                        try
+                        {
+                            restaurant.PhoneNumber = reader.GetString("RestaurantPhoneNumber");
+                        }
+                        catch (Exception)
+                        { }
+                        restaurant.Address = reader.GetString("RestaurantAddress");
+                        restaurant.City = reader.GetString("RestaurantCity");
+                        try
+                        {
+                            restaurant.State = reader.GetString("RestaurantState");
+                        }
+                        catch (Exception)
+                        { }
+                        try
+                        {
+                            restaurant.Zip = reader.GetString("RestaurantZip");
+                        }
+                        catch (Exception)
+                        { }
+                        restaurant.Country = reader.GetString("RestaurantCountry");
+                        restaurant.Email = reader.GetString("RestaurantEmail");
+                        try
+                        {
+                            restaurant.Longitude = double.Parse(reader.GetString("RestaurantLongitude"));
+                        }
+                        catch (Exception)
+                        { }
+                        try
+                        {
+                            restaurant.Latitude = double.Parse(reader.GetString("RestaurantLatitude"));
+                        }
+                        catch (Exception)
+                        { }
+                        restaurants.Add(restaurant);
+                    }
+                    reader.Close();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Failed to get the all restaurants {e.Message}");
+                    error = "No restaurants";
+                }
+            }
+            return restaurants;
+        }
+
     }
 }

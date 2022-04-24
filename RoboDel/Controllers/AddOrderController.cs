@@ -1,5 +1,6 @@
 ﻿using RoboDel.Dao;
 using RoboDel.Models;
+using RoboDel.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,8 @@ namespace RoboDel.Controllers
         public IActionResult Index()
         {
             Database.Init();
+            RestaurantController restaurantController = new RestaurantController();
+            ViewBag.restaurants = restaurantController.GetAllRestaurants();
             return View();
         }
 
@@ -32,34 +35,26 @@ namespace RoboDel.Controllers
             return Json(new { errMsg = "" });
         }
 
-        public IActionResult AddAnOrder(string restaurantName, string pickupTime, bool readyForPickup, string firstName, string lastName,  string phoneNumber, string email, string address, string city,  string zip, string state, string country)
+        
+
+        public IActionResult AddAnOrder(string restaurantEmail, string pickupTime, bool readyForPickup, string firstName, string lastName,  string phoneNumber, string email, string address, string city,  string zip, string state, string country)
         {
-            //PostalCodeDao postalCodeDao = new PostalCodeDao();
-            //UserDao userDao = new UserDao();
-            //PhoneDao phoneDao = new PhoneDao();
-
-            //if (userDao.UserExists(email))
-            //{
-            //    return Json(new { errMsg = "User account with that email already exists." });
-            //}
-
-            //if (postalCodeDao.ValidatePostalCode(postalCode, city, state, out string error))
-            //{
-            //    if (phoneDao.ValidatePhone(phoneNumber, email, out error))
-            //    {
-            //        if (userDao.RegisterUser(email, password, nickname, firstName, lastName, postalCode, out error))
-            //        {
-            //            _ = phoneDao.AddPhone(phoneNumber, type, ifShare, email, out error);
-            //        }
-            //    }
-            //}
-            //if (error == "")
-            //{
-            //    HttpContext.Session.SetString("session_email", email);
-            //    HttpContext.Session.SetString("session_firstName", firstName);
-            //    HttpContext.Session.SetString("session_lastName", lastName);
-            //}
-            string error = "";
+            CustomerDao customerDao = new CustomerDao();
+            OrderDao orderDao = new OrderDao();
+            int customerIDCheck = customerDao.CustomerExists(firstName, lastName, email, phoneNumber, address, city, zip, state, country, out string error);
+            if (customerIDCheck != -1)
+            {
+                int customerID = customerIDCheck;
+                _ = orderDao.AddOrder(pickupTime, readyForPickup, restaurantEmail, customerID, out error);
+            }
+            else
+            {
+                if (customerDao.AddCustomer(firstName, lastName, email, phoneNumber, address, city, zip, state, country, out  error))
+                {
+                    int customerID = customerDao.GetLastInsertedCustomerID();
+                    _ = orderDao.AddOrder(pickupTime, readyForPickup, restaurantEmail, customerID, out error);
+                }
+            }
             return Json(new { errMsg = error });
         }
 

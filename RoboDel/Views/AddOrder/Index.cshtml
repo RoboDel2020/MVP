@@ -5,9 +5,9 @@
 <style>
     #main {
         border: 1px solid #f5b707;
-        width: 500px;
+        width: 100%;
         padding: 50px 50px;
-        margin: 0px 0px 0px 250px;
+        margin: 20px 20px 20px 20px;
         border-radius:25px;
         color: black;
     }
@@ -35,81 +35,88 @@
 
 <body>
     <div id="main">
-        <header align="center">
-            <br>
-            <br>
-            <h1>Add Order</h1>
-            <hr>
-        </header>
-
+        <h1>Add Order</h1>
+        <br>
+        <br>
         <form align="center" method="post" action="#">
-            <table style="width:100px" class="table">
-                <tr>
-                    <td>Restaurant</td>
-                    <td>
-                        <select id="restaurantName" style="width: 150px; height:30px">
-                            <option value="home">Karas</option>
-                            <option value="work">Tumanyan</option>
-                            <option value="mobile">Kaktus</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Pickup Time</td>
-                    <td alignment="center"><input type="time" name="pickupTime" id="pickupTime" min="09:00" max="23:00" step="300"></td>
-                </tr>
-                <tr>
-                    <td>Ready for Pickup</td>
-                    <td>
-                        <input type="checkbox" id="readyForPickup" name="show" value="readyForPickup" style="width: 200px">
-                    </td>
-                </tr>
-                <h2>Customer Info</h2>
-                <tr>
-                    <td>First Name</td>
-                    <td alignment="center"><input type="text" name="first_name" id="firstName" style="width: 200px" /></td>
-                </tr>
-                <tr>
-                    <td>Last Name</td>
-                    <td alignment="center"><input type="text" name="last_name" id="lastName" style="width: 200px" /></td>
-                </tr>
-                <tr>
-                    <td>Phone Number</td>
-                    <td alignment="center"><input type="text" name="phoneNumber" id="phoneNumber" style="width: 200px" /></td>
-                </tr>
-                <tr>
-                    <td>Email</td>
-                    <td alignment="center"><input type="text" name="email" id="email" style="width: 200px" /></td>
-                </tr>
-                <tr>
-                    <td>Address</td>
-                    <td alignment="center"><input type="text" name="address" id="address" style="width: 200px" /></td>
-                </tr>
-                <tr>
-                    <td>City </td>
-                    <td alignment="center"><input type="text" name="city" id="city" style="width: 200px" /></td>
-                </tr>
-                <tr>
-                    <td>State</td>
-                    <td alignment="center"><input type="text" name="state" id="state" style="width: 200px" /></td>
-                </tr>
-                <tr>
-                    <td>Postal Code </td>
-                    <td alignment="center"><input type="text" name="zip" id="zip" style="width: 200px" /></td>
-                </tr>
-                <tr>
-                    <td>Country</td>
-                    <td alignment="center"><input type="text" name="country" id="country" style="width: 200px" /></td>
-                </tr>
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Customer Info</h2>
+                    <table style="width:400px" class="table">
+                        <tr>
+                            <td style="width: 200px">First Name</td>
+                            <td alignment="center"><input type="text" name="first_name" id="firstName" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Last Name</td>
+                            <td alignment="center"><input type="text" name="last_name" id="lastName" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Phone Number</td>
+                            <td alignment="center"><input type="text" name="phoneNumber" id="phoneNumber" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td alignment="center"><input type="text" name="email" id="email" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Address</td>
+                            <td alignment="center"><input type="text" name="address" id="address" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>City </td>
+                            <td alignment="center"><input type="text" name="city" id="city" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>State</td>
+                            <td alignment="center"><input type="text" name="state" id="state" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Postal Code </td>
+                            <td alignment="center"><input type="text" name="zip" id="zip" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Country</td>
+                            <td alignment="center"><input type="text" name="country" id="country" style="width: 200px" /></td>
+                        </tr>
 
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h2>Order Details</h2>
+                    <table style="width:400px" class="table">
+                        <tr>
+                            <td>Restaurant</td>
+                            <td>
+                                <select id="restaurantEmail" style="width: 150px; height:30px">
+                                    @foreach (Restaurant restaurant in ViewBag.restaurants)
+                                    {
+                                        <option value="@restaurant.Email">@restaurant.Name</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pickup Time</td>
+                            <td alignment="center"><input type="time" name="pickupTime" id="pickupTime" min="09:00" max="23:00" step="300"></td>
+                        </tr>
+                        <tr>
+                            <td>Ready for Pickup</td>
+                            <td>
+                                <input type="checkbox" id="readyForPickup" name="show" value="readyForPickup" style="width: 200px">
+                            </td>
+                        </tr>
 
+                        <tr>
+                            <td alignment="center"><input type="button" value="Add Order" class="register_btn" onclick="AddOrder()" style="width: 200px" /></td>
+                        </tr>
+                    </table>
 
-                <tr>
-                    <td alignment="center"><input type="button" value="Add Order" class="register_btn" onclick="AddOrder()" style="width: 200px" /></td>
-                </tr>
-
-            </table>
+                </div>
+            </div>
         </form>
+
+
     </div>
 
     <script>
@@ -122,12 +129,12 @@
                 url: "/AddOrder/AddAnOrder",
                 async: true,
                 dataType: "json",
-                data: { restaurantName: $("#restaurantName").val(), pickupTime: pickupTime, readyForPickup: $('#readyForPickup').is(":checked"), firstName: $("#firstName").val(), lastName: $("#lastName").val(), phoneNumber: $("#phoneNumber").val(), email: $("#email").val(), address: $("#address").val(), city: $("#city").val(), zip: $("#zip").val(), state: $("#state").val(), country: $("#country").val() },
+                data: { restaurantEmail: $("#restaurantEmail").val(), pickupTime: pickupTime, readyForPickup: $('#readyForPickup').is(":checked"), firstName: $("#firstName").val(), lastName: $("#lastName").val(), phoneNumber: $("#phoneNumber").val(), email: $("#email").val(), address: $("#address").val(), city: $("#city").val(), zip: $("#zip").val(), state: $("#state").val(), country: $("#country").val() },
                 success: function (data) {
                     if (data.errMsg != "") {
                         alert(String(data.errMsg));
                     } else {
-                        window.location.href = '/MainMenu/Index';
+                        window.location.href = '/Order/Index';
                     }
                 },
                 error: function () {
