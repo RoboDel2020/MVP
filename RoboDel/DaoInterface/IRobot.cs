@@ -10,5 +10,7 @@ namespace RoboDel.DaoInterface
     {
         public List<Robot> GetAllRobots(out string error);
         public Robot GetRobotDetails(int courierID, out string error);
+        public List<Robot> GetAllRobotsWithCurrentStatistics(out string error);
+
     }
 }

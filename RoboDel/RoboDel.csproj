@@ -33,5 +33,11 @@
     <Folder Include="Views\ViewOrder\" />
     <Folder Include="Views\Robot\" />
     <Folder Include="Views\AddOrder\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\css\images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\images\" />
+    <Content Remove="wwwroot\css\images\" />
   </ItemGroup>
 </Project>

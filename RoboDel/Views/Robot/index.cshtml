@@ -1,100 +1,179 @@
-﻿<style>
-    .logout_btn {
-        font-size: 15px;
-        transition: ease-in all 0.5s;
-        background-color: #f5b707;
-        color: #fff;
-        position: fixed;
-        right: 20px;
-        top: 10px;
-        padding: 6px 13px;
-    }
+﻿
 
-        .logout_btn:hover {
-            background-color: #232323;
-            color: #fff;
+
+<html>
+<head>
+    <title>Custom Markers</title>
+    <link rel="stylesheet" href="~/css/leaflet.css" />
+    <script src="~/js/leaflet.js"></script>
+
+    <style>
+        .logout_btn {
+            font-size: 15px;
             transition: ease-in all 0.5s;
-            border-radius: 26px;
+            background-color: #f5b707;
+            color: #fff;
+            position: fixed;
+            right: 20px;
+            top: 10px;
+            padding: 6px 13px;
         }
 
-    .logo_text {
-        color: #f5b707;
-        font-size: 30px;
-        font-weight: bold;
-        margin-top: 5px
-    }
-</style>
-<div>
-    <h1 class="logo_text"><a href="javascript:GoMainMenu()">RoboDel<a /></h1>
-    <button class="logout_btn" type="button" onclick="Logout()">Logout</button>
-    <hr>
-</div>
-<br>
-
-<h1>All Robots</h1>
-
-<br>
-<table class="table table-striped">
-    <tr>
-        <th><b>Robot ID</b></th>
-        <th><b>Status</b></th>
-        <th><b>Location</b></th>
-    </tr>
-    @foreach (Robot robot in ViewBag.allRobots)
-    {
-    <tr>
-        <td>@robot.CourierID</td>
-        <td>@robot.StateOfRobot</td>
-        <td>@robot.City @robot.State @robot.Country</td>
-    </tr>
-    }
-</table>
-
-<script>
-    
-    function Logout() {
-        $.ajax({
-            type: "POST",
-            url: "/Login/Logout",
-            async: true,
-            dataType: "json",
-            data: {},
-            success: function (data) {
-                window.location.href = '/Login/Index';
+            .logout_btn:hover {
+                background-color: #232323;
+                color: #fff;
+                transition: ease-in all 0.5s;
+                border-radius: 26px;
             }
-        });
-    }
 
-    function GoMainMenu() {
-        $.ajax({
-            type: "POST",
-            url: "/MainMenu/GoMainMenu",
-            async: true,
-            dataType: "json",
-            data: {},
-            success: function (data) {
-                if (data.errMsg != "") {
-                    alert(String(data.errMsg));
-                } else {
-                    window.location.href = '/MainMenu/Index';
+        .logo_text {
+            color: #f5b707;
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 5px
+        }
+
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <h1 class="logo_text"><a href="javascript:GoMainMenu()">RoboDel<a /></h1>
+        <button class="logout_btn" type="button" onclick="Logout()">Logout</button>
+        <hr>
+    </div>
+    <br>
+
+    <h1>All Robots</h1>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-striped">
+                <tr>
+                    <th><b>Robot ID</b></th>
+                    <th><b>Status</b></th>
+                    <th><b>Battery</b></th>
+                    <th><b>Location</b></th>
+                </tr>
+                @foreach (Robot robot in ViewBag.allRobots)
+                {
+                    <tr>
+                        <td>@robot.CourierID</td>
+                        @if (@robot.StateOfRobot == "active")
+                        {
+                            <td style="color:green">@robot.StateOfRobot</td>
+                        }
+                        else
+                        {
+                            <td style="color:red">@robot.StateOfRobot</td>
+                        }
+                        <td>@robot.CurrentRobotStatistics.Battery %</td>
+                        <td>@robot.City @robot.State @robot.Country</td>
+                    </tr>
                 }
-            },
-            error: function () {
-                return "error";
-            }
-        });
-    }
-</script>
+            </table>            
+        </div>
+        <div class="col-md-6">
+            <div id="map" style="width: 100%; height: 580px"></div>
+        </div>
+    </div>
 
-</script>
-<!-- end contact -->
-<!-- Javascript files-->
-<script src="~/js/jquery.min.js"></script>
-<script src="~/js/popper.min.js"></script>
-<script src="~/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/jquery-3.0.0.min.js"></script>
-<script src="~/js/plugin.js"></script>
-<!-- sidebar -->
-<script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="~/js/custom.js"></script>
-<script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+    <script>let customIcon = {
+            iconUrl: "https://drive.google.com/uc?export=view&id=1-e9vt9YcRqmkN9BR_cfgYb5u48KemiHC",
+            iconSize: [40, 31]
+        }
+        let myIcon = L.icon(customIcon);
+        let iconOptions = {
+            title: "Robot",
+            draggable: false,
+            icon: myIcon
+        }
+        var sourcearray = @Json.Serialize(@ViewBag.allRobots);
+        var count = 0;
+        var sum_lon = 0;
+        var sum_lat = 0;
+        for (var i = 0; i < sourcearray.length; i++) {
+            var robot = sourcearray[i];
+            if (robot.currentRobotStatistics.longitude > 0 || robot.currentRobotStatistics.longitude < 0) {
+                sum_lon = sum_lon + robot.currentRobotStatistics.longitude;
+                sum_lat = sum_lat + robot.currentRobotStatistics.latitude;
+                count = count + 1;
+            }
+        }
+
+        var map = L.map('map').setView([sum_lon/count, sum_lat/count], 15);
+
+        mapLink =
+            '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+        L.tileLayer(
+            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; ' + mapLink + ' Contributors',
+            maxZoom: 18,
+        }).addTo(map);
+
+        var sourcearray = @Json.Serialize(@ViewBag.allRobots);
+        for (var i = 0; i < sourcearray.length; i++) {
+            var robot = sourcearray[i];
+            marker = new L.marker([robot.currentRobotStatistics.longitude, robot.currentRobotStatistics.latitude], iconOptions)
+                .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
+                .addTo(map);
+        }
+    </script>
+
+
+
+
+
+    <script>function Logout() {
+            $.ajax({
+                type: "POST",
+                url: "/Login/Logout",
+                async: true,
+                dataType: "json",
+                data: {},
+                success: function (data) {
+                    window.location.href = '/Login/Index';
+                }
+            });
+        }
+
+        function GoMainMenu() {
+            $.ajax({
+                type: "POST",
+                url: "/MainMenu/GoMainMenu",
+                async: true,
+                dataType: "json",
+                data: {},
+                success: function (data) {
+                    if (data.errMsg != "") {
+                        alert(String(data.errMsg));
+                    } else {
+                        window.location.href = '/MainMenu/Index';
+                    }
+                },
+                error: function () {
+                    return "error";
+                }
+            });
+        }</script>
+
+    <!-- Javascript files-->
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery-3.0.0.min.js"></script>
+    <script src="~/js/plugin.js"></script>
+    <!-- sidebar -->
+    <script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+</body>
+</html>

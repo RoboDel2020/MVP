@@ -22,7 +22,7 @@ namespace RoboDel.Controllers
         public IActionResult Index()
         {
             Database.Init();
-            ViewBag.allRobots = this.GetAllRobots();
+            ViewBag.allRobots = this.GetAllRobotsWithCurrentStatistics();
             return View();
         }
 
@@ -37,6 +37,13 @@ namespace RoboDel.Controllers
         {
             RobotDao robotDao = new RobotDao();
             List<Robot> allRobots = robotDao.GetAllRobots(out string error);
+            return allRobots;
+        }
+
+        public List<Robot> GetAllRobotsWithCurrentStatistics()
+        {
+            RobotDao robotDao = new RobotDao();
+            List<Robot> allRobots = robotDao.GetAllRobotsWithCurrentStatistics(out string error);
             return allRobots;
         }
 
