@@ -72,6 +72,7 @@
         </tr>
     }
 </table>
+<input type="button" value="Test Maps" class="register_btn" onclick="testAPI()" style="width: 200px" />
 
 <script>function GetRestaurantDetails(restaurantEmail) {
         $.ajax({
@@ -176,6 +177,32 @@
             }
         });
     }
+
+    function testAPI() {
+        
+
+        @*const body = '{"coordinates":[[43.0588647918687, -89.40034963890459],[43.067906818785985, -89.41057272700718]]}';*@
+
+
+        var request = new XMLHttpRequest();
+
+        request.open('GET', 'https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62488303e1e1bcb64deb91105af7032e30d4&start=-89.43481627077286,43.08957898010592&end=-89.40057767677146,43.05885104655657');
+
+        request.setRequestHeader('Accept', 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8');
+
+        request.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                @*console.log('Status:', this.status);*@
+                @*console.log('Headers:', this.getAllResponseHeaders());*@
+                @*console.log('Body:', this.responseText);*@
+                const bodyJson = JSON.parse(this.responseText);
+                console.log('Distance in km:', bodyJson.features[0].properties.summary.distance/1000);
+                console.log('Duration in minutes:', bodyJson.features[0].properties.summary.duration/60);
+            }
+        };
+
+        request.send();
+    }
         
     </script>
 
@@ -191,3 +218,4 @@
 <script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="~/js/custom.js"></script>
 <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
