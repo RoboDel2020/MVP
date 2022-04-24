@@ -145,6 +145,140 @@ namespace RoboDel.Dao
             return orders;
         }
 
+
+        public List<Order> GetAllOrdersByRestaurantEmail(string restaurantEmail, out string error)
+        {
+            error = string.Empty;
+            List<Order> orders = new List<Order>();
+
+            using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = "SELECT o.ID as OrderID,o.PickupTime as OrderPickupTime, o.ReadyForPickup as OrderReadyForPickup, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress,c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
+                                   $"FROM `Order` o JOIN Restaurant r ON o.RestaurantEmail = r.Email JOIN Customer c ON c.ID = o.CustomerID WHERE o.RestaurantEmail = '{restaurantEmail}'  ORDER BY o.DateTime DESC; ";
+
+                    MySqlCommand command = new MySqlCommand(query, conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Order order = new Order();
+                        Customer customer = new Customer();
+                        Restaurant restaurant = new Restaurant();
+
+                        order.ID = Int16.Parse(reader.GetString("OrderID"));
+                        order.DateTime = DateTime.Parse(reader.GetString("OrderDateTime"));
+                        order.PickupTime = DateTime.Parse(reader.GetString("OrderPickupTime"));
+                        order.ReadyForPickup = bool.Parse(reader.GetString("OrderReadyForPickup"));
+                        order.Status = reader.GetString("OrderStatus");
+                        try
+                        {
+                            order.Longitude = double.Parse(reader.GetString("OrderLongitude"));
+                        }
+                        catch (Exception)
+                        { }
+                        try
+                        {
+                            order.Latitude = double.Parse(reader.GetString("OrderLatitude"));
+                        }
+                        catch (Exception)
+                        { }
+                        customer.ID = Int16.Parse(reader.GetString("CustomerID"));
+                        customer.FirstName = reader.GetString("CustomerFirstName");
+                        try
+                        {
+                            customer.LastName = reader.GetString("CustomerLastName");
+                        }
+                        catch (Exception)
+                        { }
+
+                        customer.PhoneNumber = reader.GetString("CustomerPhoneNumber");
+                        try
+                        {
+                            customer.Email = reader.GetString("CustomerEmail");
+                        }
+                        catch (Exception)
+                        { }
+
+                        customer.Address = reader.GetString("CustomerAddress");
+                        customer.City = reader.GetString("CustomerCity");
+                        try
+                        {
+                            customer.State = reader.GetString("CustomerState");
+                        }
+                        catch (Exception)
+                        { }
+
+                        try
+                        {
+                            customer.Zip = reader.GetString("CustomerZip");
+                        }
+                        catch (Exception)
+                        { }
+
+                        customer.Country = reader.GetString("CustomerCountry");
+                        restaurant.Name = reader.GetString("RestaurantName");
+                        try
+                        {
+                            restaurant.Type = reader.GetString("RestaurantType");
+                        }
+                        catch (Exception)
+                        { }
+                        restaurant.Status = reader.GetString("RestaurantStatus");
+                        try
+                        {
+                            restaurant.PhoneNumber = reader.GetString("RestaurantPhoneNumber");
+                        }
+                        catch (Exception)
+                        { }
+                        restaurant.Address = reader.GetString("RestaurantAddress");
+                        restaurant.City = reader.GetString("RestaurantCity");
+                        try
+                        {
+                            restaurant.State = reader.GetString("RestaurantState");
+                        }
+                        catch (Exception)
+                        { }
+                        try
+                        {
+                            restaurant.Zip = reader.GetString("RestaurantZip");
+                        }
+                        catch (Exception)
+                        { }
+                        restaurant.Country = reader.GetString("RestaurantCountry");
+                        restaurant.Email = reader.GetString("RestaurantEmail");
+                        try
+                        {
+                            restaurant.Longitude = double.Parse(reader.GetString("RestaurantLongitude"));
+                        }
+                        catch (Exception)
+                        { }
+                        try
+                        {
+                            restaurant.Latitude = double.Parse(reader.GetString("RestaurantLatitude"));
+                        }
+                        catch (Exception)
+                        { }
+                        order.Restaurant = restaurant;
+                        order.Customer = customer;
+                        orders.Add(order);
+
+                    }
+
+
+                    reader.Close();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Failed to get the alls orders {e.Message}");
+                    error = "No Orders";
+                }
+            }
+            return orders;
+        }
+
+
         public Order GetOrderDetails(int orderID, out string error)
         {
             error = string.Empty;

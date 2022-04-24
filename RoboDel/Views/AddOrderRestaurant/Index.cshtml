@@ -1,0 +1,164 @@
+﻿@{
+    ViewData["Title"] = "Registration";
+}
+
+<style>
+    #main {
+        border: 1px solid #f5b707;
+        width: 100%;
+        padding: 50px 50px;
+        margin: 20px 20px 20px 20px;
+        border-radius: 25px;
+        color: black;
+    }
+
+    .register_btn {
+        font-size: 17px;
+        background-color: #f5b707;
+        color: #000;
+        padding: 13px 0px;
+        width: 100%;
+        max-width: 190px;
+        text-align: center;
+        display: inline-block;
+        transition: ease-in all 0.5s;
+        border: none;
+    }
+
+        .register_btn:hover {
+            background-color: #232323;
+            color: #fff;
+            transition: ease-in all 0.5s;
+            border-radius: 26px;
+        }
+</style>
+
+<body>
+    <div id="main">
+        <h1>Add Order</h1>
+        <br>
+        <br>
+        <form align="center" method="post" action="#">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Customer Info</h2>
+                    <table style="width:400px" class="table">
+                        <tr>
+                            <td style="width: 200px">First Name</td>
+                            <td alignment="center"><input type="text" name="first_name" id="firstName" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Last Name</td>
+                            <td alignment="center"><input type="text" name="last_name" id="lastName" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Phone Number</td>
+                            <td alignment="center"><input type="text" name="phoneNumber" id="phoneNumber" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td alignment="center"><input type="text" name="email" id="email" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Address</td>
+                            <td alignment="center"><input type="text" name="address" id="address" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>City </td>
+                            <td alignment="center"><input type="text" name="city" id="city" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>State</td>
+                            <td alignment="center"><input type="text" name="state" id="state" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Postal Code </td>
+                            <td alignment="center"><input type="text" name="zip" id="zip" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Country</td>
+                            <td alignment="center"><input type="text" name="country" id="country" style="width: 200px" /></td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h2>Order Details</h2>
+                    <table style="width:400px" class="table">
+
+                        <tr>
+                            <td>Pickup Time</td>
+                            <td alignment="center"><input type="time" name="pickupTime" id="pickupTime" min="09:00" max="23:00" step="300"></td>
+                        </tr>
+                        <tr>
+                            <td>Ready for Pickup</td>
+                            <td>
+                                <input type="checkbox" id="readyForPickup" name="show" value="readyForPickup" style="width: 200px">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td alignment="center"><input type="button" value="Add Order" class="register_btn" onclick="AddOrder()" style="width: 200px" /></td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+
+    <script>
+        @* Runs the login function*@
+        function AddOrder() {
+            var pickupTime = new Date().toISOString().slice(0, 10) + " " + $("#pickupTime").val() + ":00";
+            $.ajax({
+                type: "POST",
+                url: "/AddOrderRestaurant/AddAnOrderRestaurant",
+                async: true,
+                dataType: "json",
+                data: {pickupTime: pickupTime, readyForPickup: $('#readyForPickup').is(":checked"), firstName: $("#firstName").val(), lastName: $("#lastName").val(), phoneNumber: $("#phoneNumber").val(), email: $("#email").val(), address: $("#address").val(), city: $("#city").val(), zip: $("#zip").val(), state: $("#state").val(), country: $("#country").val() },
+                success: function (data) {
+                    if (data.errMsg != "") {
+                        alert(String(data.errMsg));
+                    } else {
+                        window.location.href = '/Restaurant/Index';
+                    }
+                },
+                error: function () {
+                    return "error";
+                }
+            });
+        }
+    </script>
+
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery-3.0.0.min.js"></script>
+    <script src="~/js/plugin.js"></script>
+    <!-- sidebar -->
+    <script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    @*<script src="~/js/custom.js"></script>*@
+    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -14,6 +14,7 @@ namespace RoboDel.Controllers
     public class RestaurantController : Controller
     {
         public static Restaurant restaurant { get; private set; }
+        public static List<Order> order { get; private set; }
 
         public RestaurantController()
         {
@@ -22,6 +23,8 @@ namespace RoboDel.Controllers
         public IActionResult Index()
         {
             Database.Init();
+            OrderDao orderDao = new OrderDao();
+            ViewBag.allOrders = orderDao.GetAllOrdersByRestaurantEmail(HttpContext.Session.GetString("restaurant_email"), out string error);
             return View();
         }
 
@@ -45,5 +48,7 @@ namespace RoboDel.Controllers
             List<Restaurant> allRestaurants = restaurantDao.GetAllRestaurants(out string error);
             return allRestaurants;
         }
+
+        
     }
 }

@@ -21,6 +21,7 @@
     <None Remove="Views\ViewOrder\" />
     <None Remove="Views\Robot\" />
     <None Remove="Views\AddOrder\" />
+    <None Remove="Views\AddOrderRestaurant\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\UpdateUser\" />
@@ -35,6 +36,7 @@
     <Folder Include="Views\AddOrder\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\css\images\" />
+    <Folder Include="Views\AddOrderRestaurant\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\" />

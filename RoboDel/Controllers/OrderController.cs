@@ -40,5 +40,12 @@ namespace RoboDel.Controllers
             return allOrders;
         }
 
+        public List<Order> GetAllOrdersByRestaurantEmail( string restaurantEmail)
+        {
+            OrderDao orderDao = new OrderDao();
+            List<Order> allOrders = orderDao.GetAllOrdersByRestaurantEmail(restaurantEmail, out string error);
+            return allOrders;
+        }
+
     }
 }

@@ -85,15 +85,37 @@
     </div>
 
 
-    <script>let customIcon = {
-            iconUrl: "https://drive.google.com/uc?export=view&id=1-e9vt9YcRqmkN9BR_cfgYb5u48KemiHC",
-            iconSize: [40, 31]
+    <script>
+        let customIconWhite = {
+        iconUrl: "https://drive.google.com/uc?export=view&id=1EziGBt6GwQXZW19tvbyzeusY3ubbRiyd",
+            iconSize: [50, 40]
         }
-        let myIcon = L.icon(customIcon);
-        let iconOptions = {
+        let customIconRed = {
+            iconUrl: "https://drive.google.com/uc?export=view&id=15QxDRSj0TTxlB85LncGYpUeNeKBasds3",
+            iconSize: [50, 40]
+        }
+        let customIconOrange = {
+            iconUrl: "https://drive.google.com/uc?export=view&id=1a-aiokvAkX9Q3SiuxzWBJbgg9JYx6XT1",
+            iconSize: [50, 40]
+        }
+        let myIconWhite = L.icon(customIconWhite);
+        let myIconRed = L.icon(customIconRed);
+        let myIconOrange = L.icon(customIconOrange);
+
+        let iconOptionsWhite = {
             title: "Robot",
             draggable: false,
-            icon: myIcon
+            icon: myIconWhite
+        }
+        let iconOptionsRed = {
+            title: "Robot",
+            draggable: false,
+            icon: myIconRed
+        }
+        let iconOptionsOrange = {
+            title: "Robot",
+            draggable: false,
+            icon: myIconOrange
         }
         var sourcearray = @Json.Serialize(@ViewBag.allRobots);
         var count = 0;
@@ -121,9 +143,20 @@
         var sourcearray = @Json.Serialize(@ViewBag.allRobots);
         for (var i = 0; i < sourcearray.length; i++) {
             var robot = sourcearray[i];
-            marker = new L.marker([robot.currentRobotStatistics.longitude, robot.currentRobotStatistics.latitude], iconOptions)
-                .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
-                .addTo(map);
+            if (robot.currentRobotStatistics.battery <=10) {
+                marker = new L.marker([robot.currentRobotStatistics.longitude, robot.currentRobotStatistics.latitude], iconOptionsRed)
+                    .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
+                    .addTo(map);
+            } else if (robot.currentRobotStatistics.battery <= 30) {
+                marker = new L.marker([robot.currentRobotStatistics.longitude, robot.currentRobotStatistics.latitude], iconOptionsOrange)
+                    .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
+                    .addTo(map);
+            } else {
+                marker = new L.marker([robot.currentRobotStatistics.longitude, robot.currentRobotStatistics.latitude], iconOptionsWhite)
+                    .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
+                    .addTo(map);
+            }
+            
         }
     </script>
 

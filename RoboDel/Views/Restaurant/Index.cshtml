@@ -97,8 +97,43 @@
     <p style="font-weight: bold; font-size: 20px;">Welcome, @Context.Session.GetString("restaurant_name")!</p>
 
 </div>
+<button class="btn btn-success" type="button" style="float: right;" onclick="AddOrder()">Add Delivery</button>
+<br>
 
+<h2>Previous Orders</h2>
 
+<br>
+<table class="table table-striped">
+    <tr>
+        <th><b>Order ID</b></th>
+        <th><b>Received At</b></th>
+        <th><b>Estimated Pickup Time</b></th>
+        <th><b>Ready for Pickup</b></th>
+        <th><b>Status</b></th>
+        <th><b>Restaurant</b></th>
+        <th><b>Customer</b></th>
+    </tr>
+    @foreach (Order order in ViewBag.allOrders)
+    {
+        <tr>
+            <td>@order.ID</td>
+            <td>@order.DateTime</td>
+            <td>@order.PickupTime</td>
+
+            @if (@order.ReadyForPickup)
+            {
+                <td>Yes</td>
+            }
+            else
+            {
+                <td>No</td>
+            }
+            <td>@order.Status</td>
+            <td>@order.Restaurant.Name</td>
+            <td>@order.Customer.FirstName @order.Customer.LastName</td>
+        </tr>
+    }
+</table>
 
 
 <script>
@@ -116,8 +151,18 @@
         });
     }
 
-   
-
+    function AddOrder() {
+        $.ajax({
+            type: "POST",
+            url: "/AddOrderRestaurant/GoToAddOrder",
+            async: true,
+            dataType: "json",
+            data: {},
+            success: function (data) {
+                window.location.href = '/AddOrderRestaurant/Index';
+            }
+        });
+    }
 </script>
 
 
