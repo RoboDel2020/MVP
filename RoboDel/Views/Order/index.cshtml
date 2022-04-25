@@ -77,7 +77,7 @@
                     <td>@order.Status</td>
                     <td><a href="javascript:GetRestaurantDetails('@order.Restaurant.Email')" style="color: blue">@order.Restaurant.Name</a></td>
                     <td><a href="javascript:GetCustomerDetails('@order.Customer.ID.ToString()')" style="color: blue">@order.Customer.FirstName @order.Customer.LastName </a></td>
-                    <td><button type="button" class="open-AddParkingDialog btn btn-primary" data-id="@order.ID.ToString()" data-toggle="modal" data-target="#AddParkingDialog">Add Parking</button></td>
+                    <td><button type="button" class="open-AddParkingDialog btn btn-primary" data-id="@order.ID.ToString()" data-whatever="@order.Restaurant.Name" data-toggle="modal" data-target="#AddParkingDialog">Add Parking</button></td>
                 </tr>
             }
         <tbody>
@@ -214,7 +214,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="AddParkingDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
@@ -223,8 +223,19 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Recipient:</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Message:</label>
+                            <textarea class="form-control" id="message-text"></textarea>
+                        </div>
+                    </form>
                     <p>some content</p>
                     <input type="text" name="orderId" id="orderId" value="" />
+                    <input type="text" name="restaurantName" id="restaurantName" value="" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -240,9 +251,13 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
 
+    
     <script>$(document).on("click", ".open-AddParkingDialog", function () {
             var orderId = $(this).data('id');
+            var restaurantName = $(this).data('whatever');
+
             $(".modal-body #orderId").val(orderId);
+            $(".modal-body #restaurantName").val(restaurantName);
             // As pointed out in comments,
             // it is unnecessary to have to manually call the modal.
             // $('#addBookDialog').modal('show');
