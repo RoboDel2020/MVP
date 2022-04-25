@@ -6,136 +6,153 @@
 }
 
 
-<style>
-    .logout_btn {
-        font-size: 15px;
-        transition: ease-in all 0.5s;
-        background-color: #f5b707;
-        color: #fff;
-        position: fixed;
-        right: 20px;
-        top: 10px;
-        padding: 6px 13px;
-    }
-
-        .logout_btn:hover {
-            background-color: #232323;
-            color: #fff;
+<html>
+<head>
+    <style>
+        .logout_btn {
+            font-size: 15px;
             transition: ease-in all 0.5s;
-            border-radius: 26px;
-        }
-
-    .logo_text {
-        color: #f5b707;
-        font-size: 30px;
-        font-weight: bold;
-        margin-top: 5px
-    }
-
-    .menu_btns {
-        font-size: 17px;
-        background-color: #f5b707;
-        color: #000;
-        padding: 13px 0px;
-        width: 100%;
-        max-width: 190px;
-        text-align: center;
-        display: inline-block;
-        transition: ease-in all 0.5s;
-        margin: 10px;
-    }
-
-        .menu_btns:hover {
-            background-color: #232323;
+            background-color: #f5b707;
             color: #fff;
-            transition: ease-in all 0.5s;
-            border-radius: 26px;
+            position: fixed;
+            right: 20px;
+            top: 10px;
+            padding: 6px 13px;
         }
 
-    .ulButtons {
-        width: 600px;
-        height: 400px;
-        border: 2px solid black;
-        border-radius: 10px;
-    }
-
-    .info {
-        margin-left: 250px;
-    }
-
-        .info li {
-            float: left;
-        }
-
-            .info li a {
-                border: 2px solid black;
-                border-radius: 5px;
-                margin: 10px;
-                font-size: 17px;
-                width: 100%;
-                height: 150px;
-                padding: 15px 15px;
-                font-weight: bold;
+            .logout_btn:hover {
+                background-color: #232323;
+                color: #fff;
+                transition: ease-in all 0.5s;
+                border-radius: 26px;
             }
 
-                .info li a:hover {
-                    background-color: #232323;
-                    color: #fff;
-                    transition: ease-in all 0.5s;
-                    border-radius: 26px;
+        .logo_text {
+            color: #f5b707;
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 5px
+        }
+
+        .menu_btns {
+            font-size: 17px;
+            background-color: #f5b707;
+            color: #000;
+            padding: 13px 0px;
+            width: 100%;
+            max-width: 190px;
+            text-align: center;
+            display: inline-block;
+            transition: ease-in all 0.5s;
+            margin: 10px;
+        }
+
+            .menu_btns:hover {
+                background-color: #232323;
+                color: #fff;
+                transition: ease-in all 0.5s;
+                border-radius: 26px;
+            }
+
+        .ulButtons {
+            width: 600px;
+            height: 400px;
+            border: 2px solid black;
+            border-radius: 10px;
+        }
+
+        .info {
+            margin-left: 250px;
+        }
+
+            .info li {
+                float: left;
+            }
+
+                .info li a {
+                    border: 2px solid black;
+                    border-radius: 5px;
+                    margin: 10px;
+                    font-size: 17px;
+                    width: 100%;
+                    height: 150px;
+                    padding: 15px 15px;
+                    font-weight: bold;
                 }
-</style>
 
+                    .info li a:hover {
+                        background-color: #232323;
+                        color: #fff;
+                        transition: ease-in all 0.5s;
+                        border-radius: 26px;
+                    }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 
-<div>
-    <h1 class="logo_text">RoboDel</h1>
-    <button class="logout_btn" type="button" onclick="Logout()">Logout</button>
-    <hr>
-</div>
+</head>
+<body>
+    <div>
+        <h1 class="logo_text">RoboDel</h1>
+        <button class="logout_btn" type="button" onclick="Logout()">Logout</button>
+        <hr>
+    </div>
 
-<div class="main_menu" align="center">
-    <p style="font-weight: bold; font-size: 20px;">Welcome, @Context.Session.GetString("restaurant_name")!</p>
+    <div class="main_menu" align="center">
+        <p style="font-weight: bold; font-size: 20px;">Welcome, @Context.Session.GetString("restaurant_name")!</p>
 
-</div>
-<button class="btn btn-success" type="button" style="float: right;" onclick="AddOrder()">Add Delivery</button>
-<br>
+    </div>
+    <button class="btn btn-success" type="button" style="float: right;" onclick="AddOrder()">Add Delivery</button>
+    <br>
 
-<h2>Previous Orders</h2>
+    <h2>Previous Orders</h2>
 
-<br>
-<table class="table table-striped">
-    <tr>
-        <th><b>Order ID</b></th>
-        <th><b>Received At</b></th>
-        <th><b>Estimated Pickup Time</b></th>
-        <th><b>Ready for Pickup</b></th>
-        <th><b>Status</b></th>
-        <th><b>Restaurant</b></th>
-        <th><b>Customer</b></th>
-    </tr>
-    @foreach (Order order in ViewBag.allOrders)
-    {
-        <tr>
-            <td>@order.ID</td>
-            <td>@order.DateTime</td>
-            <td>@order.PickupTime</td>
-
-            @if (@order.ReadyForPickup)
+    <br>
+    <table id="ordersTable" class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th><b>Order ID</b></th>
+                <th><b>Received At</b></th>
+                <th><b>Estimated Pickup Time</b></th>
+                <th><b>Ready for Pickup</b></th>
+                <th><b>Status</b></th>
+                <th><b>Restaurant</b></th>
+                <th><b>Customer</b></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Order order in ViewBag.allOrders)
             {
-                <td>Yes</td>
-            }
-            else
-            {
-                <td>No</td>
-            }
-            <td>@order.Status</td>
-            <td>@order.Restaurant.Name</td>
-            <td>@order.Customer.FirstName @order.Customer.LastName</td>
-        </tr>
-    }
-</table>
+                <tr>
+                    <td>@order.ID</td>
+                    <td>@order.DateTime</td>
+                    <td>@order.PickupTime</td>
 
+                    @if (@order.ReadyForPickup)
+                    {
+                        <td>Yes</td>
+                    }
+                    else
+                    {
+                        <td>No</td>
+                    }
+                    <td>@order.Status</td>
+                    <td>@order.Restaurant.Name</td>
+                    <td>@order.Customer.FirstName @order.Customer.LastName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
+    <script>$(document).ready(function () {
+            $('#ordersTable').DataTable();
+        });</script>
+    <script>
 <script>
     @* Go to Register Page *@
     function Logout() {
@@ -163,19 +180,14 @@
             }
         });
     }
-</script>
+    </script>
+
+</body>
+</html>
 
 
-<!-- Javascript files-->
-<script src="~/js/jquery.min.js"></script>
-<script src="~/js/popper.min.js"></script>
-<script src="~/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/jquery-3.0.0.min.js"></script>
-<script src="~/js/plugin.js"></script>
-<!-- sidebar -->
-<script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="~/js/custom.js"></script>
-<script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+
 
 
 

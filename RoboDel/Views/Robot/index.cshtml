@@ -6,6 +6,13 @@
     <title>Custom Markers</title>
     <link rel="stylesheet" href="~/css/leaflet.css" />
     <script src="~/js/leaflet.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 
     <style>
         .logout_btn {
@@ -54,37 +61,43 @@
 
     <div class="row">
         <div class="col-md-6">
-            <table class="table table-striped">
-                <tr>
-                    <th><b>Robot ID</b></th>
-                    <th><b>Status</b></th>
-                    <th><b>Battery</b></th>
-                    <th><b>Location</b></th>
-                </tr>
-                @foreach (Robot robot in ViewBag.allRobots)
-                {
+            <table id="robotsTable" class="table table-bordered table-striped" style="width:100%">
+                <thead>
                     <tr>
-                        <td>@robot.CourierID</td>
-                        @if (@robot.StateOfRobot == "active")
-                        {
-                            <td style="color:green">@robot.StateOfRobot</td>
-                        }
-                        else
-                        {
-                            <td style="color:red">@robot.StateOfRobot</td>
-                        }
-                        <td>@robot.CurrentRobotStatistics.Battery %</td>
-                        <td>@robot.City @robot.State @robot.Country</td>
+                        <th><b>Robot ID</b></th>
+                        <th><b>Status</b></th>
+                        <th><b>Battery</b></th>
+                        <th><b>Location</b></th>
                     </tr>
-                }
-            </table>            
+                </thead>
+                <tbody>
+                    @foreach (Robot robot in ViewBag.allRobots)
+                    {
+                        <tr>
+                            <td>@robot.CourierID</td>
+                            @if (@robot.StateOfRobot == "active")
+                            {
+                                <td style="color:green">@robot.StateOfRobot</td>
+                            }
+                            else
+                            {
+                                <td style="color:red">@robot.StateOfRobot</td>
+                            }
+                            <td>@robot.CurrentRobotStatistics.Battery %</td>
+                            <td>@robot.City @robot.State @robot.Country</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
         <div class="col-md-6">
             <div id="map" style="width: 100%; height: 580px"></div>
         </div>
     </div>
 
-
+    <script>$(document).ready(function () {
+            $('#robotsTable').DataTable();
+        });</script>
     <script>
         let customIconWhite = {
         iconUrl: "https://drive.google.com/uc?export=view&id=1EziGBt6GwQXZW19tvbyzeusY3ubbRiyd",
@@ -156,7 +169,7 @@
                     .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
                     .addTo(map);
             }
-            
+
         }
     </script>
 
@@ -196,17 +209,5 @@
                 }
             });
         }</script>
-
-    <!-- Javascript files-->
-    <script src="~/js/jquery.min.js"></script>
-    <script src="~/js/popper.min.js"></script>
-    <script src="~/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/jquery-3.0.0.min.js"></script>
-    <script src="~/js/plugin.js"></script>
-    <!-- sidebar -->
-    <script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="~/js/custom.js"></script>
-    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-
 </body>
 </html>

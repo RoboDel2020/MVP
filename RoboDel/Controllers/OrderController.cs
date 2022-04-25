@@ -22,7 +22,10 @@ namespace RoboDel.Controllers
         public IActionResult Index()
         {
             Database.Init();
-            ViewBag.allOrders = this.GetAllOrders();
+            ViewBag.allPendingOrders = this.GetAllPendingOrders();
+            ViewBag.allCanceledOrders = this.GetAllCanceledOrders();
+            ViewBag.allDeliveredOrders = this.GetAllDeliveredOrders();
+            ViewBag.allInProgressOrders = this.GetAllInProgressOrders();
             return View();
         }
 
@@ -37,6 +40,34 @@ namespace RoboDel.Controllers
         {
             OrderDao orderDao = new OrderDao();
             List<Order> allOrders = orderDao.GetAllOrders(out string error);
+            return allOrders;
+        }
+
+        public List<Order> GetAllPendingOrders()
+        {
+            OrderDao orderDao = new OrderDao();
+            List<Order> allOrders = orderDao.GetAllPendingOrders(out string error);
+            return allOrders;
+        }
+
+        public List<Order> GetAllCanceledOrders()
+        {
+            OrderDao orderDao = new OrderDao();
+            List<Order> allOrders = orderDao.GetAllCanceledOrders(out string error);
+            return allOrders;
+        }
+
+        public List<Order> GetAllDeliveredOrders()
+        {
+            OrderDao orderDao = new OrderDao();
+            List<Order> allOrders = orderDao.GetAllDeliveredOrders(out string error);
+            return allOrders;
+        }
+
+        public List<Order> GetAllInProgressOrders()
+        {
+            OrderDao orderDao = new OrderDao();
+            List<Order> allOrders = orderDao.GetAllInProgressOrders(out string error);
             return allOrders;
         }
 
