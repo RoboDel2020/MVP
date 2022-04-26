@@ -37,11 +37,11 @@ namespace RoboDel.Controllers
 
         
 
-        public IActionResult AddAnOrder(string restaurantEmail, string pickupTime, bool readyForPickup, string firstName, string lastName,  string phoneNumber, string email, string address, string city,  string zip, string state, string country)
+        public IActionResult AddAnOrder(string restaurantEmail, string pickupTime, bool readyForPickup, string firstName, string lastName,  string phoneNumber, string email, string address, string apartment, string city,  string zip, string state, string country)
         {
             CustomerDao customerDao = new CustomerDao();
             OrderDao orderDao = new OrderDao();
-            int customerIDCheck = customerDao.CustomerExists(firstName, lastName, email, phoneNumber, address, city, zip, state, country, out string error);
+            int customerIDCheck = customerDao.CustomerExists(firstName, lastName, email, phoneNumber, address, apartment, city, zip, state, country, out string error);
             if (customerIDCheck != -1)
             {
                 int customerID = customerIDCheck;
@@ -49,7 +49,7 @@ namespace RoboDel.Controllers
             }
             else
             {
-                if (customerDao.AddCustomer(firstName, lastName, email, phoneNumber, address, city, zip, state, country, out  error))
+                if (customerDao.AddCustomer(firstName, lastName, email, phoneNumber, address, apartment, city, zip, state, country, out  error))
                 {
                     int customerID = customerDao.GetLastInsertedCustomerID();
                     _ = orderDao.AddOrder(pickupTime, readyForPickup, restaurantEmail, customerID, out error);

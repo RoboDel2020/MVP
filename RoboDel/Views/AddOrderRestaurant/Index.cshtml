@@ -64,6 +64,10 @@
                             <td alignment="center"><input type="text" name="address" id="address" style="width: 200px" /></td>
                         </tr>
                         <tr>
+                            <td>Apartment #</td>
+                            <td alignment="center"><input type="text" name="apartment" id="address" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
                             <td>City </td>
                             <td alignment="center"><input type="text" name="city" id="city" style="width: 200px" /></td>
                         </tr>
@@ -118,7 +122,7 @@
                 url: "/AddOrderRestaurant/AddAnOrderRestaurant",
                 async: true,
                 dataType: "json",
-                data: {pickupTime: pickupTime, readyForPickup: $('#readyForPickup').is(":checked"), firstName: $("#firstName").val(), lastName: $("#lastName").val(), phoneNumber: $("#phoneNumber").val(), email: $("#email").val(), address: $("#address").val(), city: $("#city").val(), zip: $("#zip").val(), state: $("#state").val(), country: $("#country").val() },
+                data: { pickupTime: pickupTime, readyForPickup: $('#readyForPickup').is(":checked"), firstName: $("#firstName").val(), lastName: $("#lastName").val(), phoneNumber: $("#phoneNumber").val(), email: $("#email").val(), address: $("#address").val(), apartment: $("#apartment").val(), city: $("#city").val(), zip: $("#zip").val(), state: $("#state").val(), country: $("#country").val() },
                 success: function (data) {
                     if (data.errMsg != "") {
                         alert(String(data.errMsg));

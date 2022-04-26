@@ -23,6 +23,7 @@ CREATE TABLE Customer (
  PhoneNumber varchar(20) NOT NULL,
  Email varchar(50),
  Address varchar(100) NOT NULL,
+ Apartment varchar(10),
  City varchar(50) NOT NULL,
  State char(20),
  Zip char(20),
@@ -32,8 +33,8 @@ CREATE TABLE Customer (
 
 INSERT INTO Customer(FirstName,LastName,PhoneNumber,Email,Address,City,State,Zip,Country)
 VALUES("Hayk","Kosyan", "094252647","hayk@gmail.com", "615 W Johnson St","Madison", "WI","53706","US" );
-INSERT INTO Customer(FirstName,LastName,PhoneNumber,Email,Address,City,State,Zip,Country)
-VALUES("Armen","Sargsyan", "077424514","armen@gmail.com", "903 Delaplaine ct, Apt 234","Madison", "WI","53715","US" );
+INSERT INTO Customer(FirstName,LastName,PhoneNumber,Email,Address,Apartment,City,State,Zip,Country)
+VALUES("Armen","Sargsyan", "077424514","armen@gmail.com", "903 Delaplaine ct", "234","Madison", "WI","53715","US" );
 INSERT INTO Customer(FirstName,LastName,PhoneNumber,Email,Address,City,State,Zip,Country)
 VALUES("Karen","Tumanyan", "099654142","karen@gmail.com", "1810 Monroe St","Madison", "WI","53711","US" );
 

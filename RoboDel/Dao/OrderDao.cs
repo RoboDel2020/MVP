@@ -23,7 +23,7 @@ namespace RoboDel.Dao
                 try
                 {
                     conn.Open();
-                    string query = "SELECT o.ID as OrderID,o.PickupTime as OrderPickupTime, o.ReadyForPickup as OrderReadyForPickup, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress,c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
+                    string query = "SELECT o.ID as OrderID,o.PickupTime as OrderPickupTime, o.ReadyForPickup as OrderReadyForPickup, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress, c.Apartment as CustomerApartment, c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
                                    "FROM `Order` o JOIN Restaurant r ON o.RestaurantEmail = r.Email JOIN Customer c ON c.ID = o.CustomerID ORDER BY o.DateTime; ";
                     
                     MySqlCommand command = new MySqlCommand(query, conn);
@@ -70,6 +70,12 @@ namespace RoboDel.Dao
                         
                         customer.Address = reader.GetString("CustomerAddress");
                         customer.City = reader.GetString("CustomerCity");
+                        try
+                        {
+                            customer.Apartment = reader.GetString("CustomerApartment");
+                        }
+                        catch (Exception)
+                        { }
                         try
                         {
                             customer.State = reader.GetString("CustomerState");
@@ -155,7 +161,7 @@ namespace RoboDel.Dao
                 try
                 {
                     conn.Open();
-                    string query = "SELECT o.ID as OrderID,o.PickupTime as OrderPickupTime, o.ReadyForPickup as OrderReadyForPickup, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress,c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
+                    string query = "SELECT o.ID as OrderID,o.PickupTime as OrderPickupTime, o.ReadyForPickup as OrderReadyForPickup, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress, c.Apartment as CustomerApartment, c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
                                    "FROM `Order` o JOIN Restaurant r ON o.RestaurantEmail = r.Email JOIN Customer c ON c.ID = o.CustomerID WHERE o.Status = 'pending' ORDER BY o.DateTime; ";
 
                     MySqlCommand command = new MySqlCommand(query, conn);
@@ -202,6 +208,12 @@ namespace RoboDel.Dao
 
                         customer.Address = reader.GetString("CustomerAddress");
                         customer.City = reader.GetString("CustomerCity");
+                        try
+                        {
+                            customer.Apartment = reader.GetString("CustomerApartment");
+                        }
+                        catch (Exception)
+                        { }
                         try
                         {
                             customer.State = reader.GetString("CustomerState");
@@ -287,7 +299,7 @@ namespace RoboDel.Dao
                 try
                 {
                     conn.Open();
-                    string query = "SELECT o.ID as OrderID,o.PickupTime as OrderPickupTime, o.ReadyForPickup as OrderReadyForPickup, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress,c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
+                    string query = "SELECT o.ID as OrderID,o.PickupTime as OrderPickupTime, o.ReadyForPickup as OrderReadyForPickup, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress, c.Apartment as CustomerApartment, c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
                                    "FROM `Order` o JOIN Restaurant r ON o.RestaurantEmail = r.Email JOIN Customer c ON c.ID = o.CustomerID WHERE o.Status='delivered' ORDER BY o.DateTime; ";
 
                     MySqlCommand command = new MySqlCommand(query, conn);
@@ -334,6 +346,12 @@ namespace RoboDel.Dao
 
                         customer.Address = reader.GetString("CustomerAddress");
                         customer.City = reader.GetString("CustomerCity");
+                        try
+                        {
+                            customer.Apartment = reader.GetString("CustomerApartment");
+                        }
+                        catch (Exception)
+                        { }
                         try
                         {
                             customer.State = reader.GetString("CustomerState");
@@ -419,7 +437,7 @@ namespace RoboDel.Dao
                 try
                 {
                     conn.Open();
-                    string query = "SELECT o.ID as OrderID,o.PickupTime as OrderPickupTime, o.ReadyForPickup as OrderReadyForPickup, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress,c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
+                    string query = "SELECT o.ID as OrderID,o.PickupTime as OrderPickupTime, o.ReadyForPickup as OrderReadyForPickup, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress, c.Apartment as CustomerApartment, c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
                                    "FROM `Order` o JOIN Restaurant r ON o.RestaurantEmail = r.Email JOIN Customer c ON c.ID = o.CustomerID WHERE o.Status='canceled' ORDER BY o.DateTime; ";
 
                     MySqlCommand command = new MySqlCommand(query, conn);
@@ -466,6 +484,12 @@ namespace RoboDel.Dao
 
                         customer.Address = reader.GetString("CustomerAddress");
                         customer.City = reader.GetString("CustomerCity");
+                        try
+                        {
+                            customer.Apartment = reader.GetString("CustomerApartment");
+                        }
+                        catch (Exception)
+                        { }
                         try
                         {
                             customer.State = reader.GetString("CustomerState");
@@ -551,7 +575,7 @@ namespace RoboDel.Dao
                 try
                 {
                     conn.Open();
-                    string query = "SELECT o.ID as OrderID,o.PickupTime as OrderPickupTime, o.ReadyForPickup as OrderReadyForPickup, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress,c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
+                    string query = "SELECT o.ID as OrderID,o.PickupTime as OrderPickupTime, o.ReadyForPickup as OrderReadyForPickup, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress, c.Apartment as CustomerApartment, c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
                                    "FROM `Order` o JOIN Restaurant r ON o.RestaurantEmail = r.Email JOIN Customer c ON c.ID = o.CustomerID WHERE o.Status = 'in progress' ORDER BY o.DateTime; ";
 
                     MySqlCommand command = new MySqlCommand(query, conn);
@@ -598,6 +622,12 @@ namespace RoboDel.Dao
 
                         customer.Address = reader.GetString("CustomerAddress");
                         customer.City = reader.GetString("CustomerCity");
+                        try
+                        {
+                            customer.Apartment = reader.GetString("CustomerApartment");
+                        }
+                        catch (Exception)
+                        { }
                         try
                         {
                             customer.State = reader.GetString("CustomerState");
@@ -683,7 +713,7 @@ namespace RoboDel.Dao
                 try
                 {
                     conn.Open();
-                    string query = "SELECT o.ID as OrderID,o.PickupTime as OrderPickupTime, o.ReadyForPickup as OrderReadyForPickup, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress,c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
+                    string query = "SELECT o.ID as OrderID,o.PickupTime as OrderPickupTime, o.ReadyForPickup as OrderReadyForPickup, o.DateTime as OrderDateTime, o.Status as OrderStatus, o.Longitude as OrderLongitude, o.Latitude as OrderLatitude, r.Name as RestaurantName, r.Type as RestaurantType, r.Status as RestaurantStatus,r.PhoneNumber as RestaurantPhoneNumber,r.Address as RestaurantAddress,r.City as RestaurantCity, r.State as RestaurantState, r.Zip as RestaurantZip, r.Country as RestaurantCountry, r.Email as RestaurantEmail, r.Longitude as RestaurantLongitude, r.Latitude as RestaurantLatitude, c.ID as CustomerID, c.FirstName as CustomerFirstName, c.LastName as CustomerLastName, c.PhoneNumber as CustomerPhoneNumber, c.Email as CustomerEmail,  c.Address as CustomerAddress, c.Apartment as CustomerApartment, c.City as CustomerCity, c.State as CustomerState, c.Zip as CustomerZip, c.Country as CustomerCountry " +
                                    $"FROM `Order` o JOIN Restaurant r ON o.RestaurantEmail = r.Email JOIN Customer c ON c.ID = o.CustomerID WHERE o.RestaurantEmail = '{restaurantEmail}'  ORDER BY o.DateTime DESC; ";
 
                     MySqlCommand command = new MySqlCommand(query, conn);
@@ -730,6 +760,12 @@ namespace RoboDel.Dao
 
                         customer.Address = reader.GetString("CustomerAddress");
                         customer.City = reader.GetString("CustomerCity");
+                        try
+                        {
+                            customer.Apartment = reader.GetString("CustomerApartment");
+                        }
+                        catch (Exception)
+                        { }
                         try
                         {
                             customer.State = reader.GetString("CustomerState");
@@ -891,6 +927,31 @@ namespace RoboDel.Dao
                 {
                     Debug.WriteLine($"Database Error (Order): Cannot enter a new order in database {e.Message}");
                     error = "Cannot enter a new order in database";
+                    return false;
+                }
+            }
+        }
+
+        public bool AddCoordinates(int orderId, double longitude, double latitude, out string error)
+        {
+            error = string.Empty;
+
+            using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = "UPDATE `Order` " +
+                                    $"SET Longitude = {longitude}, Latitude = {latitude} " +
+                                    $"WHERE ID = '{orderId}'; ";
+                    MySqlCommand command = new MySqlCommand(query, conn);
+                    command.ExecuteNonQuery();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Database Error (Orders): Cannot update the order coordinates in the database {e.Message}");
+                    error = "Cannot update the order coordinates in database";
                     return false;
                 }
             }

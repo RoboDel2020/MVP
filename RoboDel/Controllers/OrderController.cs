@@ -78,5 +78,13 @@ namespace RoboDel.Controllers
             return allOrders;
         }
 
+        public IActionResult AddCoordinates(string orderId, string longitude, string latitude)
+        {
+
+            OrderDao orderDao = new OrderDao();
+             _ = orderDao.AddCoordinates(Int16.Parse(orderId), double.Parse(longitude), double.Parse(latitude), out string error);
+            return Json(new { errMsg = error });
+        }
+
     }
 }

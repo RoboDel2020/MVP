@@ -10,8 +10,8 @@ namespace RoboDel.DaoInterface
     {
         
         public Customer GetCustomerDetails(int customerID, out string error);
-        public int CustomerExists(string firstName, string lastName, string email, string phoneNumber, string address, string city, string zip, string state, string country, out string error);
-        public bool AddCustomer(string firstName, string lastName, string email, string phoneNumber, string address, string city, string zip, string state, string country, out string error);
+        public int CustomerExists(string firstName, string lastName, string email, string phoneNumber, string address, string apartment, string city, string zip, string state, string country, out string error);
+        public bool AddCustomer(string firstName, string lastName, string email, string phoneNumber, string address, string apartment, string city, string zip, string state, string country, out string error);
         public int GetLastInsertedCustomerID();
     }
 }

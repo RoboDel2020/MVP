@@ -41,6 +41,10 @@ namespace RoboDel.Dao
                             customer.Address = row["Address"].ToString();
                             customer.City = row["City"].ToString();
                             customer.Country = row["Country"].ToString();
+                            if (row["Apartment"] != DBNull.Value)
+                            {
+                                customer.Apartment = row["Apartment"].ToString();
+                            }
                             if (row["LastName"] != DBNull.Value)
                             {
                                 customer.LastName = row["LastName"].ToString();
@@ -79,7 +83,7 @@ namespace RoboDel.Dao
             return customer;
         }
 
-        public int CustomerExists(string firstName, string lastName, string email, string phoneNumber, string address, string city, string zip, string state, string country, out string error)
+        public int CustomerExists(string firstName, string lastName, string email, string phoneNumber, string address, string apartment, string city, string zip, string state, string country, out string error)
         {
             error = string.Empty;
             int customerID = -1;
@@ -88,7 +92,7 @@ namespace RoboDel.Dao
                 try
                 {
                     conn.Open();
-                    string query = $"SELECT ID FROM Customer WHERE FirstName='{firstName}' AND LastName='{lastName}' AND Email='{email}' AND PhoneNumber='{phoneNumber}' AND Address='{address}' AND City='{city}' AND Zip='{zip}' AND State='{state}' AND Country='{country}';";
+                    string query = $"SELECT ID FROM Customer WHERE FirstName='{firstName}' AND LastName='{lastName}' AND Email='{email}' AND PhoneNumber='{phoneNumber}' AND Address='{address}' AND Apartment='{apartment}' AND City='{city}' AND Zip='{zip}' AND State='{state}' AND Country='{country}';";
                     MySqlCommand command = new MySqlCommand(query, conn);
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
@@ -108,7 +112,7 @@ namespace RoboDel.Dao
         }
 
 
-        public bool AddCustomer(string firstName, string lastName, string email, string phoneNumber, string address, string city, string zip, string state, string country, out string error)
+        public bool AddCustomer(string firstName, string lastName, string email, string phoneNumber, string address, string apartment, string city, string zip, string state, string country, out string error)
         {
             error = string.Empty;
 
@@ -122,8 +126,8 @@ namespace RoboDel.Dao
                 try
                 {
                     conn.Open();
-                    string insert = "INSERT INTO Customer(FirstName,LastName,PhoneNumber,Email,Address,City,State,Zip,Country) " +
-                                    $"VALUES('{firstName}', '{lastName}', '{phoneNumber}', '{email}', '{address}', '{city}', '{state}', '{zip}', '{country}'); ";
+                    string insert = "INSERT INTO Customer(FirstName,LastName,PhoneNumber,Email,Address,Apartment,City,State,Zip,Country) " +
+                                    $"VALUES('{firstName}', '{lastName}', '{phoneNumber}', '{email}', '{address}', '{apartment}', '{city}', '{state}', '{zip}', '{country}'); ";
                     MySqlCommand command = new MySqlCommand(insert, conn);
                     command.ExecuteNonQuery();
                     return true;

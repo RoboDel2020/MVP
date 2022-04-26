@@ -23,6 +23,40 @@ namespace RoboDel.Controllers
         {
             Database.Init();
             ViewBag.customer = customer;
+            string zip = "";
+            string apartment = "";
+            string state = "";
+            try
+            {
+                if (@ViewBag.customer.Apartment.Length > 0)
+                {
+                    apartment = ", Apt " + @ViewBag.customer.Apartment;
+                }
+            }
+            catch { }
+            
+            try
+            {
+                if (@ViewBag.customer.State.Length > 0)
+                {
+                    state = ", " + @ViewBag.customer.State;
+                }
+            }
+            catch { }
+            
+            try
+            {
+                if (@ViewBag.customer.Zip.Length > 0)
+                {
+                    zip = ", " + @ViewBag.customer.Zip;
+                }
+            }
+            catch { }
+            
+            ViewBag.apartment = apartment;
+            ViewBag.state = state;
+            ViewBag.zip = zip;
+
             return View();
         }
 
