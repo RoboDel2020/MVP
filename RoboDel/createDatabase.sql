@@ -213,3 +213,36 @@ INSERT INTO RobotStatistics
 VALUES(6,NOW(),3.7, 21, 43.07089776391351, -89.39945885612534);
 INSERT INTO RobotStatistics 
 VALUES(7,NOW(),4.8, 58, 43.0767420969867, -89.40195841270564);
+
+
+CREATE TABLE Delivery (
+  ID int UNSIGNED NOT NULL AUTO_INCREMENT,
+  OrderID int UNSIGNED NOT NULL,
+  ToRestaurant datetime,
+  AtRestaurant datetime,
+  Loaded datetime,
+  FromRestaurant datetime,
+  AtCustomer datetime,
+  CustomerInformed datetime,
+  Delivered datetime,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (OrderID) REFERENCES `Order` (ID)
+);
+
+CREATE TABLE CourierForDelivery (
+	DeliveryID int UNSIGNED NOT NULL,
+	CourierID int UNSIGNED NOT NULL,
+    StartTime datetime NOT NULL,
+    EndTime datetime,
+    UNIQUE (DeliveryID, CourierID, StartTime),
+	FOREIGN KEY (CourierID) REFERENCES Courier (ID),
+	FOREIGN KEY (DeliveryID) REFERENCES Delivery (ID)
+);
+
+INSERT INTO Delivery(OrderID,ToRestaurant)
+Values(2,NOW());
+
+INSERT INTO CourierForDelivery(DeliveryID,CourierID, StartTime)
+Values(1,2,NOW());
+
+

@@ -1,7 +1,4 @@
-﻿
-
-
-<html>
+﻿<html>
 <head>
     <title>Robots</title>
     <link rel="stylesheet" href="~/css/leaflet.css" />
@@ -45,6 +42,8 @@
             width: 100%;
         }
     </style>
+
+
 </head>
 <body>
 
@@ -55,8 +54,17 @@
     </div>
     <br>
 
-    <h1>All Robots</h1>
-    <button class="btn" type="button" onclick="fetchAsync()">Logouttttt</button>
+    <h1>All Robots</h1>    <br>
+
+    @ViewBag.orderID    <br>
+
+    @ViewBag.orderLongitude   <br>
+
+    @ViewBag.orderLatitude    <br>
+
+    @ViewBag.restaurantLongitude    <br>
+
+    @ViewBag.restaurantLatitude    <br>
 
     <br>
 
@@ -65,27 +73,50 @@
             <table id="robotsTable" class="table table-bordered table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th><b>Robot ID</b></th>
-                        <th><b>Status</b></th>
-                        <th><b>Battery</b></th>
+                        <th><b>RID</b></th>
                         <th><b>Location</b></th>
+                        <th><b>Battery</b></th>
+                        <th><b>DID</b></th>
+                        <th><b>Coordinates</b></th>
+                        <th><b>Distance</b></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (Robot robot in ViewBag.allRobots)
+                    @foreach (CourierForDelivery courierForDelivery in ViewBag.allActiveCouriersForDelivery)
                     {
                         <tr>
-                            <td>@robot.CourierID</td>
-                            @if (@robot.StateOfRobot == "active")
+                            <td>@courierForDelivery.Robot.CourierID</td>
+                            <td>@courierForDelivery.Robot.City @courierForDelivery.Robot.State @courierForDelivery.Robot.Country</td>
+                            <td>@courierForDelivery.Robot.CurrentRobotStatistics.Battery %</td>
+                            @if (@courierForDelivery.Delivery.ID > 0)
                             {
-                                <td style="color:green">@robot.StateOfRobot</td>
+                                <td>@courierForDelivery.Delivery.ID</td>
                             }
                             else
                             {
-                                <td style="color:red">@robot.StateOfRobot</td>
+                                <td></td>
                             }
-                            <td>@robot.CurrentRobotStatistics.Battery %</td>
-                            <td>@robot.City @robot.State @robot.Country</td>
+                            @if (@courierForDelivery.Delivery.Order.Longitude != 0 && @courierForDelivery.Delivery.Order.Latitude != 0)
+                            {
+                                <td>@courierForDelivery.Delivery.Order.Longitude @courierForDelivery.Delivery.Order.Latitude</td>
+                            }
+                            else
+                            {
+                                <td>@courierForDelivery.Robot.CurrentRobotStatistics.Longitude @courierForDelivery.Robot.CurrentRobotStatistics.Latitude</td>
+                            }
+
+                            @if (@courierForDelivery.Delivery.Order.Longitude != 0 && @courierForDelivery.Delivery.Order.Latitude != 0)
+                            {
+                        <td>
+                            @courierForDelivery.Distance
+                        </td>
+                            }
+                            else
+                            {
+                        <td>
+                            @courierForDelivery.Distance
+                        </td>
+                            }
                         </tr>
                     }
                 </tbody>
@@ -95,6 +126,7 @@
             <div id="map" style="width: 100%; height: 580px"></div>
         </div>
     </div>
+
 
     <script>$(document).ready(function () {
             $('#robotsTable').DataTable();
@@ -209,13 +241,6 @@
                     return "error";
                 }
             });
-        }
-        async function fetchAsync() {
-            var url = 'https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62488303e1e1bcb64deb91105af7032e30d4&start=-89.40767133,43.06770949&end=-89.40912133,43.0732068';
-            let response = await fetch(url);
-            let data = await response.json();
-            console.log(data);
-            return alert(data);
         }</script>
 
     <script src="~/js/jquery-3.0.0.min.js"></script>
