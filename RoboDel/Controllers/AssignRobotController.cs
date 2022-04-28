@@ -55,7 +55,8 @@ namespace RoboDel.Controllers
                 Console.WriteLine(url);
                 string json = get_web_content(url);
                 dynamic array = JsonConvert.DeserializeObject(json);
-                courierForDelivery.Distance = array.features[0].properties.summary.duration;
+                courierForDelivery.Distance = array.features[0].properties.summary.distance / 1000;
+                courierForDelivery.Duration = array.features[0].properties.summary.duration / 60;
                 couriersForDelivery.Add(courierForDelivery);
             }
 

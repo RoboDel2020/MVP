@@ -13,5 +13,6 @@ namespace RoboDel.Models
         public Delivery Delivery { get; set; }
         public Robot Robot { get; set; }
         public double Distance { get; set; }
+        public double Duration { get; set; }
     }
 }

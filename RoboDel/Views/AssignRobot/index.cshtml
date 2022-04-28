@@ -8,9 +8,29 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#robotsTable').DataTable();
+
+            $('#robotsTable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+
+            $('#button').click(function () {
+                table.row('.selected').remove().draw(false);
+            });
+        });</script>
     <style>
         .logout_btn {
             font-size: 15px;
@@ -41,6 +61,13 @@
             height: 500px;
             width: 100%;
         }
+        html, body {
+            min-height: 100%;
+            min-width: 100%;
+        }
+        @*.container{
+            width: 100%;
+        }*@
     </style>
 
 
@@ -78,46 +105,37 @@
                         <th><b>Battery</b></th>
                         <th><b>DID</b></th>
                         <th><b>Coordinates</b></th>
-                        <th><b>Distance</b></th>
+                        <th><b>Distance(km)</b></th>
+                        <th><b>Duration(m)</b></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (CourierForDelivery courierForDelivery in ViewBag.allActiveCouriersForDelivery)
                     {
-                        <tr>
-                            <td>@courierForDelivery.Robot.CourierID</td>
-                            <td>@courierForDelivery.Robot.City @courierForDelivery.Robot.State @courierForDelivery.Robot.Country</td>
-                            <td>@courierForDelivery.Robot.CurrentRobotStatistics.Battery %</td>
-                            @if (@courierForDelivery.Delivery.ID > 0)
-                            {
-                                <td>@courierForDelivery.Delivery.ID</td>
-                            }
-                            else
-                            {
-                                <td></td>
-                            }
-                            @if (@courierForDelivery.Delivery.Order.Longitude != 0 && @courierForDelivery.Delivery.Order.Latitude != 0)
-                            {
-                                <td>@courierForDelivery.Delivery.Order.Longitude @courierForDelivery.Delivery.Order.Latitude</td>
-                            }
-                            else
-                            {
-                                <td>@courierForDelivery.Robot.CurrentRobotStatistics.Longitude @courierForDelivery.Robot.CurrentRobotStatistics.Latitude</td>
-                            }
+                    <tr>
+                        <td>@courierForDelivery.Robot.CourierID</td>
+                        <td>@courierForDelivery.Robot.City @courierForDelivery.Robot.State @courierForDelivery.Robot.Country</td>
+                        <td>@courierForDelivery.Robot.CurrentRobotStatistics.Battery %</td>
+                        @if (@courierForDelivery.Delivery.ID > 0)
+                        {
+                            <td>@courierForDelivery.Delivery.ID</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        @if (@courierForDelivery.Delivery.Order.Longitude != 0 && @courierForDelivery.Delivery.Order.Latitude != 0)
+                        {
+                            <td>@courierForDelivery.Delivery.Order.Longitude @courierForDelivery.Delivery.Order.Latitude</td>
+                        }
+                        else
+                        {
+                            <td>@courierForDelivery.Robot.CurrentRobotStatistics.Longitude @courierForDelivery.Robot.CurrentRobotStatistics.Latitude</td>
+                        }
 
-                            @if (@courierForDelivery.Delivery.Order.Longitude != 0 && @courierForDelivery.Delivery.Order.Latitude != 0)
-                            {
-                        <td>
-                            @courierForDelivery.Distance
-                        </td>
-                            }
-                            else
-                            {
-                        <td>
-                            @courierForDelivery.Distance
-                        </td>
-                            }
-                        </tr>
+                        <td>@courierForDelivery.Distance</td>
+                        <td>@courierForDelivery.Duration</td>
+                    </tr>
                     }
                 </tbody>
             </table>
@@ -128,9 +146,6 @@
     </div>
 
 
-    <script>$(document).ready(function () {
-            $('#robotsTable').DataTable();
-        });</script>
     <script>
         let customIconWhite = {
         iconUrl: "https://drive.google.com/uc?export=view&id=1EziGBt6GwQXZW19tvbyzeusY3ubbRiyd",

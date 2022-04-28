@@ -9,9 +9,21 @@
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
     <!-- style css -->
     <link rel="stylesheet" href="~/css/style.css">
-    
+
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="~/css/jquery.mCustomScrollbar.min.css">
+    <style>
+        .container,pb3{
+           width: 100%;
+           max-width: 3000px;
+           margin: 0px;
+           padding: 0px;
+        }
+        .main_form {
+            margin: 0px 0px 0px 0px;
+            background: #fff;
+        }
+    </style>
 </head>
 
 <body class="main-layout">
@@ -29,45 +41,34 @@
                 </div>
             </div>
             <div class="container" align="center">
-                <div class="row" align="center">
-                    <div class="col-md-6 ">
-                        <form class="main_form">
+                <div  align="center">
+                    
+                        <form class="main_form" align="center">
                             <h2>Sign In</h2>
                             <hr>
                             <div class="row">
-                                <div class="col-md-6 ">
                                     <input class="contactus" placeholder="Username" type="text" id="credentials">
-                                </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 ">
                                     <input class="contactus" placeholder="Password" type="password" id="password">
-                                </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6">
                                     <button class="send_btn" type="button" onclick="ValidateLogin()">Login</button>
-                                </div>
                             </div>
                             <hr>
                             <br>
                             <br>
                             <h2>New User</h2>
                             <div class="row">
-                                <div class="col-sm-6">
                                     <button class="send_btn" type="button" onclick="RegisterUser()">Register</button>
-                                </div>
                             </div>
                             <br>
                             <h2>Restaurants</h2>
                             <div class="row">
-                                <div class="col-sm-6">
                                     <button class="send_btn" type="button" onclick="LoginAsARestaurant()">Login as a Restaurant</button>
-                                </div>
                             </div>
 
                         </form>
-                    </div>
                 </div>
             </div>
         </div>

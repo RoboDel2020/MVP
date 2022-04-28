@@ -44,62 +44,73 @@
             height: 500px;
             width: 100%;
         }
+        .container, pb3 {
+            width: 100%;
+            max-width: 3000px;
+            margin: 0px;
+            padding: 0px;
+        }
+        .maincontainer {
+            margin: 0px 50px 0px 50px;
+            ;
+        }
     </style>
 </head>
 <body>
 
     <div>
-        <h1 class="logo_text"><a href="javascript:GoMainMenu()">RoboDel<a /></h1>
+        <h1 class="logo_text" style="margin-left:30px;"><a href="javascript:GoMainMenu()">RoboDel<a /></h1>
         <button class="logout_btn" type="button" onclick="Logout()">Logout</button>
         <hr>
     </div>
     <br>
 
-    <h1>All Robots</h1>
-    <button class="btn" type="button" onclick="fetchAsync()">Logouttttt</button>
+    <div class="maincontainer">
+        <h1>All Robots</h1>
+        <button class="btn" type="button" onclick="fetchAsync()">Logouttttt</button>
 
-    <br>
+        <br>
 
-    <div class="row">
-        <div class="col-md-6">
-            <table id="robotsTable" class="table table-bordered table-striped" style="width:100%">
-                <thead>
-                    <tr>
-                        <th><b>Robot ID</b></th>
-                        <th><b>Status</b></th>
-                        <th><b>Battery</b></th>
-                        <th><b>Location</b></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (Robot robot in ViewBag.allRobots)
-                    {
+        <div class="row">
+            <div class="col-md-6">
+                <table id="robotsTable" class="table table-bordered table-striped" style="width:100%">
+                    <thead>
                         <tr>
-                            <td>@robot.CourierID</td>
-                            @if (@robot.StateOfRobot == "active")
-                            {
-                                <td style="color:green">@robot.StateOfRobot</td>
-                            }
-                            else
-                            {
-                                <td style="color:red">@robot.StateOfRobot</td>
-                            }
-                            <td>@robot.CurrentRobotStatistics.Battery %</td>
-                            <td>@robot.City @robot.State @robot.Country</td>
+                            <th><b>Robot ID</b></th>
+                            <th><b>Status</b></th>
+                            <th><b>Battery</b></th>
+                            <th><b>Location</b></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (Robot robot in ViewBag.allRobots)
+                        {
+                            <tr>
+                                <td>@robot.CourierID</td>
+                                @if (@robot.StateOfRobot == "active")
+                                {
+                                    <td style="color:green">@robot.StateOfRobot</td>
+                                }
+                                else
+                                {
+                                    <td style="color:red">@robot.StateOfRobot</td>
+                                }
+                                <td>@robot.CurrentRobotStatistics.Battery %</td>
+                                <td>@robot.City @robot.State @robot.Country</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <div id="map" style="width: 100%; height: 580px"></div>
+            </div>
         </div>
-        <div class="col-md-6">
-            <div id="map" style="width: 100%; height: 580px"></div>
-        </div>
-    </div>
 
-    <script>$(document).ready(function () {
-            $('#robotsTable').DataTable();
-        });</script>
-    <script>
+        <script>$(document).ready(function () {
+                $('#robotsTable').DataTable();
+            });</script>
+        <script>
         let customIconWhite = {
         iconUrl: "https://drive.google.com/uc?export=view&id=1EziGBt6GwQXZW19tvbyzeusY3ubbRiyd",
             iconSize: [50, 40]
@@ -172,54 +183,55 @@
             }
 
         }
-    </script>
+        </script>
 
 
 
 
 
-    <script>function Logout() {
-            $.ajax({
-                type: "POST",
-                url: "/Login/Logout",
-                async: true,
-                dataType: "json",
-                data: {},
-                success: function (data) {
-                    window.location.href = '/Login/Index';
-                }
-            });
-        }
-
-        function GoMainMenu() {
-            $.ajax({
-                type: "POST",
-                url: "/MainMenu/GoMainMenu",
-                async: true,
-                dataType: "json",
-                data: {},
-                success: function (data) {
-                    if (data.errMsg != "") {
-                        alert(String(data.errMsg));
-                    } else {
-                        window.location.href = '/MainMenu/Index';
+        <script>function Logout() {
+                $.ajax({
+                    type: "POST",
+                    url: "/Login/Logout",
+                    async: true,
+                    dataType: "json",
+                    data: {},
+                    success: function (data) {
+                        window.location.href = '/Login/Index';
                     }
-                },
-                error: function () {
-                    return "error";
-                }
-            });
-        }
-        async function fetchAsync() {
-            var url = 'https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62488303e1e1bcb64deb91105af7032e30d4&start=-89.40767133,43.06770949&end=-89.40912133,43.0732068';
-            let response = await fetch(url);
-            let data = await response.json();
-            console.log(data);
-            return alert(data);
-        }</script>
+                });
+            }
 
-    <script src="~/js/jquery-3.0.0.min.js"></script>
-    <!-- sidebar -->
-    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+            function GoMainMenu() {
+                $.ajax({
+                    type: "POST",
+                    url: "/MainMenu/GoMainMenu",
+                    async: true,
+                    dataType: "json",
+                    data: {},
+                    success: function (data) {
+                        if (data.errMsg != "") {
+                            alert(String(data.errMsg));
+                        } else {
+                            window.location.href = '/MainMenu/Index';
+                        }
+                    },
+                    error: function () {
+                        return "error";
+                    }
+                });
+            }
+            async function fetchAsync() {
+                var url = 'https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62488303e1e1bcb64deb91105af7032e30d4&start=-89.40767133,43.06770949&end=-89.40912133,43.0732068';
+                let response = await fetch(url);
+                let data = await response.json();
+                console.log(data);
+                return alert(data);
+            }</script>
+
+        <script src="~/js/jquery-3.0.0.min.js"></script>
+        <!-- sidebar -->
+        <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+    </div>
 </body>
 </html>
