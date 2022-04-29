@@ -957,5 +957,30 @@ namespace RoboDel.Dao
             }
         }
 
+        public bool UpdateOrderStatusToInProgress(int orderId, out string error)
+        {
+            error = string.Empty;
+
+            using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = "UPDATE `Order` " +
+                                    "SET Status = 'in progress' " +
+                                    $"WHERE ID = '{orderId}'; ";
+                    MySqlCommand command = new MySqlCommand(query, conn);
+                    command.ExecuteNonQuery();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Database Error (Orders): Cannot update the order status in the database {e.Message}");
+                    error = "Cannot update the order status in database";
+                    return false;
+                }
+            }
+        }
+
     }
 }

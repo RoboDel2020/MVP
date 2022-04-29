@@ -143,5 +143,22 @@ namespace RoboDel.Controllers
             }
             return robots;
         }
+
+        public IActionResult AssignRobotToOrder(int inputOrderID, int inputCourierID, string state)
+        {
+            OrderDao orderDao = new OrderDao();
+            DeliveryDao deliveryDao = new DeliveryDao();
+
+            if (deliveryDao.AddDelivery(inputOrderID, out string error))
+            {
+                int newDeliveryID = deliveryDao.GetActiveDeliveryByOrderID(inputOrderID);
+                if (deliveryDao.AddCourierForDelivery(newDeliveryID, inputCourierID, out  error))
+                {
+                    _ = orderDao.UpdateOrderStatusToInProgress(inputOrderID, out error);
+                }
+                
+            }
+            return Json(new { errMsg = error });
+        }
     }
 }

@@ -22,6 +22,28 @@
                 "order": [[7, "asc"]]
             });
 
+            $('#button').click(function () {
+                courierID = table.row('.selected').data()[0];
+                $.ajax({
+                    type: "POST",
+                    url: "/AssignRobot/AssignRobotToOrder",
+                    async: true,
+                    dataType: "json",
+                    data: { inputOrderID: @ViewBag.orderID, inputCourierID: courierID},
+                    success: function (data) {
+                        if (data.errMsg != "") {
+                            alert(String(data.errMsg));
+                        } else {
+                            window.location.href = '/Order/Index';
+                        }
+                    },
+                    error: function () {
+                        return "error";
+                    }
+                });
+                @*alert("barev apeer"+courierID +' '+ '@ViewBag.orderID');*@
+            });
+
             $('#robotsTable tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
@@ -85,11 +107,6 @@
                         }
                     };
                 request.send();
-                @*setTimeout(() => {
-                    alert('Distance is: ',dist);
-                }, "2000");*@
-
-
             });
         });
 
@@ -219,7 +236,7 @@
                         }
                     </tbody>
                 </table>
-                <button id="button">Delete selected row</button>
+                <button id="button" class="btn btn-success">Delete selected row</button>
 
             </div>
             <div class="col-md-6">

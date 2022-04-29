@@ -86,6 +86,5 @@ namespace RoboDel.Controllers
              _ = orderDao.AddCoordinates(Int16.Parse(orderId), double.Parse(longitude), double.Parse(latitude), out string error);
             return Json(new { errMsg = error });
         }
-
     }
 }

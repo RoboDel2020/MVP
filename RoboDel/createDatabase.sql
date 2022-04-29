@@ -52,8 +52,8 @@ CREATE TABLE Restaurant (
  State char(20),
  Zip char(15),
  Country char(20) NOT NULL,
- Longitude decimal(11, 8),
  Latitude decimal(10, 8),
+ Longitude decimal(11, 8),
  PRIMARY KEY (Email)
 );
 
@@ -104,8 +104,8 @@ CREATE TABLE `Order` (
   PickupTime datetime NOT NULL,
   ReadyForPickup bool NOT NULL,
   Status varchar(20) NOT NULL,
-  Longitude decimal(11, 8),
   Latitude decimal(10, 8),
+  Longitude decimal(11, 8),
   RestaurantEmail varchar(30) NOT NULL,
   CustomerID int UNSIGNED NOT NULL,
   PRIMARY KEY (ID),
@@ -113,11 +113,11 @@ CREATE TABLE `Order` (
   FOREIGN KEY (CustomerID) REFERENCES Customer (ID)
 );
 
-INSERT INTO `Order`(DateTime, PickupTime, ReadyForPickup,  Status, Longitude, Latitude, RestaurantEmail, CustomerID)
+INSERT INTO `Order`(DateTime, PickupTime, ReadyForPickup,  Status, Latitude, Longitude, RestaurantEmail, CustomerID)
 VALUES(NOW(), DATE_ADD(NOW(), INTERVAL 1 HOUR),FALSE,"pending", 43.0718530746374, -89.39687374871734, "rest001@gmail.com",1);
-INSERT INTO `Order`(DateTime, PickupTime, ReadyForPickup, Status, Longitude, Latitude, RestaurantEmail, CustomerID)
+INSERT INTO `Order`(DateTime, PickupTime, ReadyForPickup, Status, Latitude, Longitude, RestaurantEmail, CustomerID)
 VALUES(NOW(),DATE_ADD(NOW(), INTERVAL 1.5 HOUR),FALSE,"pending", 43.06485559171917, -89.41740470312469, "rest001@gmail.com",3);
-INSERT INTO `Order`(DateTime, PickupTime, ReadyForPickup, Status, Longitude, Latitude, RestaurantEmail, CustomerID)
+INSERT INTO `Order`(DateTime, PickupTime, ReadyForPickup, Status, Latitude, Longitude, RestaurantEmail, CustomerID)
 VALUES(NOW(),DATE_ADD(NOW(), INTERVAL 2 HOUR),FALSE,"pending", 43.05896571575645, -89.40065873664759, "rest002@gmail.com",2);
 
 
@@ -168,8 +168,8 @@ CREATE TABLE HumanCourier (
 	CourierID int UNSIGNED NOT NULL,
 	Username varchar(50)  NOT NULL,
 	City varchar(50) NOT NULL,
-	State char(20),
-	Country char(20) NOT NULL,
+	State varchar(20),
+	Country varchar(20) NOT NULL,
 	UNIQUE (CourierID),
 	FOREIGN KEY (CourierID) REFERENCES Courier (ID),
 	FOREIGN KEY (Username) REFERENCES User (Username)
@@ -181,9 +181,9 @@ CREATE TABLE RobotStatistics (
 	CourierID int UNSIGNED NOT NULL,
     DateTime datetime NOT NULL,
     Speed decimal(10,2),
-	Battery decimal(10,2),
+	Battery decimal(10,2),	
+    Latitude decimal(10, 8),
 	Longitude decimal(11, 8),
-	Latitude decimal(10, 8),
 	UNIQUE (CourierID, DateTime),
 	FOREIGN KEY (CourierID) REFERENCES Robot (CourierID)
 );
@@ -225,6 +225,7 @@ CREATE TABLE Delivery (
   AtCustomer datetime,
   CustomerInformed datetime,
   Delivered datetime,
+  Status varchar(10) NOT NULL,
   PRIMARY KEY (ID),
   FOREIGN KEY (OrderID) REFERENCES `Order` (ID)
 );
@@ -239,10 +240,7 @@ CREATE TABLE CourierForDelivery (
 	FOREIGN KEY (DeliveryID) REFERENCES Delivery (ID)
 );
 
-INSERT INTO Delivery(OrderID,ToRestaurant)
-Values(2,NOW());
-
-INSERT INTO CourierForDelivery(DeliveryID,CourierID, StartTime)
-Values(1,2,NOW());
+-- INSERT INTO CourierForDelivery(DeliveryID,CourierID, StartTime,EndTime)
+-- Values(1,6,NOW(),NOW());
 
 
