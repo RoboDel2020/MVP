@@ -142,6 +142,11 @@
             draggable: false,
             icon: myIconOrange
         }
+
+
+        
+
+
         var sourcearray = @Json.Serialize(@ViewBag.allRobots);
         var count = 0;
         var sum_lon = 0;
@@ -155,7 +160,7 @@
             }
         }
 
-        var map = L.map('map').setView([sum_lon/count, sum_lat/count], 15);
+            var map = L.map('map').setView([sum_lat / count, sum_lon / count], 15);
 
         mapLink =
             '<a href="http://openstreetmap.org">OpenStreetMap</a>';
@@ -168,20 +173,21 @@
         var sourcearray = @Json.Serialize(@ViewBag.allRobots);
         for (var i = 0; i < sourcearray.length; i++) {
             var robot = sourcearray[i];
-            if (robot.currentRobotStatistics.battery <=10) {
-                marker = new L.marker([robot.currentRobotStatistics.longitude, robot.currentRobotStatistics.latitude], iconOptionsRed)
-                    .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
-                    .addTo(map);
-            } else if (robot.currentRobotStatistics.battery <= 30) {
-                marker = new L.marker([robot.currentRobotStatistics.longitude, robot.currentRobotStatistics.latitude], iconOptionsOrange)
-                    .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
-                    .addTo(map);
-            } else {
-                marker = new L.marker([robot.currentRobotStatistics.longitude, robot.currentRobotStatistics.latitude], iconOptionsWhite)
-                    .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
-                    .addTo(map);
+            if (robot.currentRobotStatistics.longitude != 0) {
+                if (robot.currentRobotStatistics.battery <= 10) {
+                    marker = new L.marker([robot.currentRobotStatistics.latitude, robot.currentRobotStatistics.longitude], iconOptionsRed)
+                        .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
+                        .addTo(map);
+                } else if (robot.currentRobotStatistics.battery <= 30) {
+                    marker = new L.marker([robot.currentRobotStatistics.latitude, robot.currentRobotStatistics.longitude], iconOptionsOrange)
+                        .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
+                        .addTo(map);
+                } else {
+                    marker = new L.marker([robot.currentRobotStatistics.latitude, robot.currentRobotStatistics.longitude], iconOptionsWhite)
+                        .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
+                        .addTo(map);
+                }
             }
-
         }
         </script>
 

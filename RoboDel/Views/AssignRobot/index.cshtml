@@ -14,9 +14,12 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
+        var courierID = 0;
+        var courierLongitude = 0;
+        var courierLatitude = 0;
         $(document).ready(function () {
             var table = $('#robotsTable').DataTable({
-                "order": [[6, "asc"]]
+                "order": [[7, "asc"]]
             });
 
             $('#robotsTable tbody').on('click', 'tr', function () {
@@ -27,13 +30,70 @@
                     table.$('tr.selected').removeClass('selected');
                     $(this).addClass('selected');
                 }
+                var rowData = table.row('.selected').data()[0];
+
             });
-            @*$('#button').click(function () {
-                table.row('.selected').remove().draw(false);
-            });*@
+            var dist = 0;
+            var theRoute = {};
+            $('#robotsTable tbody').on('click', 'tr', function () {
+                    courierID = table.row('.selected').data()[0];
+                    courierLongitude = table.row('.selected').data()[4];
+                    courierLatitude = table.row('.selected').data()[5];
+                    var coordinatesForMap = [];
+                    var request = new XMLHttpRequest();
+                url = 'https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62488303e1e1bcb64deb91105af7032e30d4&start=' + courierLongitude + ',' + courierLatitude + '&end=' + '@ViewBag.restaurantLongitude' + ','+'@ViewBag.restaurantLatitude' ;
+                    request.open('GET', url);
+                    request.setRequestHeader('Accept', 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8');
+                    request.onreadystatechange = function () {
+                        if (this.readyState === 4) {
+                            @* console.log('Status:', this.status);*@
+                            @* console.log('Headers:', this.getAllResponseHeaders());*@
+                            @* console.log('Body:', this.responseText);*@
+                            const bodyJson = JSON.parse(this.responseText);
+                            @*console.log('JSON :', bodyJson);*@
+
+                            var coordinates = bodyJson.features[0].geometry.coordinates;
+                            for (let i = 0; i < coordinates.length; i++) {
+                                var newCoordinate = [coordinates[i][0], coordinates[i][1]];
+                                coordinatesForMap.push(newCoordinate);
+                                @*console.log(coordinates[i]);*@
+                            }
+                            @*console.log('Full coordinates:', coordinatesForMap.slice(0, -1));*@
+                            var myRoute = [{
+                                "type": "LineString",
+                                "coordinates": coordinatesForMap
+
+                            }];
+
+                            var myRouteStyle = {
+                                "color": "#0000FF",
+                                "weight": 6,
+                                "opacity": 0.9
+                            };
+
+                            if (theRoute != undefined) {
+                                map.removeLayer(theRoute);
+                            };
+                            theRoute = L.geoJSON(myRoute, {
+                                style: myRouteStyle
+                            }).addTo(map);
+
+                            @*console.log('Body:', bodyJson.features[0].geometry.coordinates);*@
+                            @*console.log('Distance in km:', bodyJson.features[0].properties.summary.distance / 1000);
+                            console.log('Duration in minutes:', bodyJson.features[0].properties.summary.duration / 60);*@
+                            dist = bodyJson.features[0].properties.summary.distance / 1000;
+                        }
+                    };
+                request.send();
+                @*setTimeout(() => {
+                    alert('Distance is: ',dist);
+                }, "2000");*@
+
+
+            });
         });
 
-        
+
 
     </script>
     <style>
@@ -97,6 +157,8 @@
     <div class="maincontainer">
 
         <h1>All Robots</h1>    <br>
+        Distance from Restaurant To Customer: @string.Format("{0:0.00}", @ViewBag.distanceFromRestaurantToCustomer) km<br>
+        Duration from Restaurant To Customer: @string.Format("{0:0.0}", @ViewBag.durationFromRestaurantToCustomer) minutes<br>
 
         @ViewBag.orderID    <br>
 
@@ -117,9 +179,10 @@
                         <tr>
                             <th><b>RID</b></th>
                             <th><b>Location</b></th>
-                            <th><b>Battery</b></th>
+                            <th><i class='bx bx-battery nav_icon'></i></th>
                             <th><b>DID</b></th>
-                            <th><b>Coordinates</b></th>
+                            <th><b>Lon</b></th>
+                            <th><b>Lat</b></th>
                             <th><b>Distance(km)</b></th>
                             <th><b>Duration(m)</b></th>
                         </tr>
@@ -141,11 +204,13 @@
                                 }
                                 @if (@courierForDelivery.Delivery.Order.Longitude != 0 && @courierForDelivery.Delivery.Order.Latitude != 0)
                                 {
-                                    <td>@courierForDelivery.Delivery.Order.Longitude @courierForDelivery.Delivery.Order.Latitude</td>
+                                    <td>@courierForDelivery.Delivery.Order.Longitude</td>
+                                    <td>@courierForDelivery.Delivery.Order.Latitude</td>
                                 }
                                 else
                                 {
-                                    <td>@courierForDelivery.Robot.CurrentRobotStatistics.Longitude @courierForDelivery.Robot.CurrentRobotStatistics.Latitude</td>
+                                    <td>@courierForDelivery.Robot.CurrentRobotStatistics.Longitude</td>
+                                    <td>@courierForDelivery.Robot.CurrentRobotStatistics.Latitude</td>
                                 }
 
                                 <td>@string.Format("{0:0.00}", @courierForDelivery.Distance)</td>
@@ -154,6 +219,8 @@
                         }
                     </tbody>
                 </table>
+                <button id="button">Delete selected row</button>
+
             </div>
             <div class="col-md-6">
                 <div id="map" style="width: 100%; height: 580px"></div>
@@ -193,20 +260,33 @@
             draggable: false,
             icon: myIconOrange
         }
-        var sourcearray = @Json.Serialize(@ViewBag.allRobots);
-        var count = 0;
-        var sum_lon = 0;
-        var sum_lat = 0;
-        for (var i = 0; i < sourcearray.length; i++) {
-            var robot = sourcearray[i];
-            if (robot.currentRobotStatistics.longitude > 0 || robot.currentRobotStatistics.longitude < 0) {
-                sum_lon = sum_lon + robot.currentRobotStatistics.longitude;
-                sum_lat = sum_lat + robot.currentRobotStatistics.latitude;
-                count = count + 1;
-            }
+
+        let customMarkerGreen = {
+            iconUrl: "https://drive.google.com/uc?export=view&id=1UzHM1VgWffMn06Lj4iSRSQzOlQSBWw3K",
+            iconSize: [40, 40]
         }
 
-        var map = L.map('map').setView([sum_lon/count, sum_lat/count], 15);
+        let myMarkerGreen = L.icon(customMarkerGreen);
+
+        let markerOptionsGreen = {
+            title: "Customer",
+            draggable: false,
+            icon: myMarkerGreen
+        }
+        let customMarkerRed = {
+            iconUrl: "https://drive.google.com/uc?export=view&id=11bv7ohdrxLAmR_lOXQ_WFAQpQbRsOkG9",
+            iconSize: [40, 40]
+        }
+
+        let myMarkerRed = L.icon(customMarkerRed);
+
+        let markerOptionsRed = {
+            title: "Restaurant",
+            draggable: false,
+            icon: myMarkerRed
+        }
+
+        var map = L.map('map').setView([@ViewBag.restaurantLatitude, @ViewBag.restaurantLongitude], 15);
 
         mapLink =
             '<a href="http://openstreetmap.org">OpenStreetMap</a>';
@@ -216,24 +296,70 @@
             maxZoom: 18,
         }).addTo(map);
 
-        var sourcearray = @Json.Serialize(@ViewBag.allRobots);
+        theRestaurantMarker = L.marker([@ViewBag.restaurantLatitude, @ViewBag.restaurantLongitude], markerOptionsRed).bindPopup("Restaurant").addTo(map);
+        theCustomerMarker = L.marker([@ViewBag.orderLatitude, @ViewBag.orderLongitude], markerOptionsGreen).bindPopup("Customer").addTo(map);
+
+        var sourcearray = @Json.Serialize(@ViewBag.robots);
         for (var i = 0; i < sourcearray.length; i++) {
             var robot = sourcearray[i];
-            if (robot.currentRobotStatistics.battery <=10) {
-                marker = new L.marker([robot.currentRobotStatistics.longitude, robot.currentRobotStatistics.latitude], iconOptionsRed)
-                    .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
-                    .addTo(map);
-            } else if (robot.currentRobotStatistics.battery <= 30) {
-                marker = new L.marker([robot.currentRobotStatistics.longitude, robot.currentRobotStatistics.latitude], iconOptionsOrange)
-                    .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
-                    .addTo(map);
-            } else {
-                marker = new L.marker([robot.currentRobotStatistics.longitude, robot.currentRobotStatistics.latitude], iconOptionsWhite)
-                    .bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h")
-                    .addTo(map);
+            if (robot.currentRobotStatistics.longitude != 0) {
+                if (robot.currentRobotStatistics.battery <= 10) {
+                    L.marker([robot.currentRobotStatistics.latitude, robot.currentRobotStatistics.longitude], iconOptionsRed).bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h").addTo(map);
+                } else if (robot.currentRobotStatistics.battery <= 30) {
+                    L.marker([robot.currentRobotStatistics.latitude, robot.currentRobotStatistics.longitude], iconOptionsOrange).bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h").addTo(map);
+                } else {
+                    L.marker([robot.currentRobotStatistics.latitude, robot.currentRobotStatistics.longitude], iconOptionsWhite).bindPopup("Robot " + robot.courierID + "<br>" + "Battery: " + robot.currentRobotStatistics.battery + "%" + "<br>" + "Speed: " + robot.currentRobotStatistics.speed + "km/h").addTo(map);
+                }
             }
-
         }
+
+
+            var myStyleToCustomer = {
+            "color": "#006400",
+            "weight": 6,
+            "opacity": 0.9
+        };
+
+        var coordinatesFromRestaurantToCustomer = [];
+        var request = new XMLHttpRequest();
+        url = 'https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62488303e1e1bcb64deb91105af7032e30d4&start=' + '@ViewBag.orderLongitude' + ',' + '@ViewBag.orderLatitude' + '&end=' + '@ViewBag.restaurantLongitude' + ','+'@ViewBag.restaurantLatitude' ;
+        request.open('GET', url);
+        request.setRequestHeader('Accept', 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8');
+        request.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                @* console.log('Status:', this.status);*@
+                @* console.log('Headers:', this.getAllResponseHeaders());*@
+                @* console.log('Body:', this.responseText);*@
+                const bodyJson = JSON.parse(this.responseText);
+
+                var coordinates = bodyJson.features[0].geometry.coordinates;
+                for (let i = 0; i < coordinates.length; i++) {
+                    var newCoordinate = [coordinates[i][0], coordinates[i][1]];
+                    coordinatesFromRestaurantToCustomer.push(newCoordinate);
+                }
+                var myRouteToCustomer = [{
+                    "type": "LineString",
+                    "coordinates": coordinatesFromRestaurantToCustomer
+
+                }];
+
+
+                theRouteToCustomer = L.geoJSON(myRouteToCustomer, {
+                    style: myStyleToCustomer
+                }).addTo(map);
+
+                @*console.log('Body:', bodyJson.features[0].geometry.coordinates);*@
+                @*console.log('Distance in km to Customer:', bodyJson.features[0].properties.summary.distance / 1000);
+                console.log('Duration in minutes to Customer:', bodyJson.features[0].properties.summary.duration / 60);*@
+            }
+        };
+        request.send();
+
+        L.geoJSON(myLines, {
+            style: myStyle
+        }).addTo(map);
+
+
         </script>
 
 
