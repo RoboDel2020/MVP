@@ -32,36 +32,12 @@ namespace RoboDel.Controllers
         public IActionResult Index()
         {
             Database.Init();
-            List<CourierForDelivery> initialCouriers = this.GetAllActiveRobotsWithCurrentStatisticsAndOrders();
             ViewBag.orderID = orderID;
             ViewBag.orderLongitude = orderLongitude;
             ViewBag.orderLatitude = orderLatitude;
             ViewBag.restaurantLongitude = restaurantLongitude;
             ViewBag.restaurantLatitude = restaurantLatitude;
-            List<CourierForDelivery> couriersForDelivery = new List<CourierForDelivery>();
-            foreach (CourierForDelivery courierForDelivery in initialCouriers)
-            {
-                string url = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62488303e1e1bcb64deb91105af7032e30d4&start=" + courierForDelivery.Robot.CurrentRobotStatistics.Latitude.ToString() + "," + courierForDelivery.Robot.CurrentRobotStatistics.Longitude.ToString() + "&end=" + restaurantLatitude + "," + restaurantLongitude;
-                try
-                {
-                    if (courierForDelivery.Delivery.Order.Longitude !=0 && courierForDelivery.Delivery.Order.Latitude!=0) {
-                        url = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62488303e1e1bcb64deb91105af7032e30d4&start=" + courierForDelivery.Delivery.Order.Latitude.ToString() + "," + courierForDelivery.Delivery.Order.Longitude.ToString() + "&end=" + restaurantLatitude + "," + restaurantLongitude;
-                    }
-                }
-                catch
-                {
-
-                }
-                Console.WriteLine(url);
-                string json = get_web_content(url);
-                dynamic array = JsonConvert.DeserializeObject(json);
-                courierForDelivery.Distance = array.features[0].properties.summary.distance / 1000;
-                courierForDelivery.Duration = array.features[0].properties.summary.duration / 60;
-                couriersForDelivery.Add(courierForDelivery);
-            }
-
-            ViewBag.allActiveCouriersForDelivery = couriersForDelivery;
-
+            ViewBag.allActiveCouriersForDelivery = this.GetDistanceAndDuration();
             return View();
         }
 
@@ -94,6 +70,43 @@ namespace RoboDel.Controllers
         {
             RobotDao robotDao = new RobotDao();
             List<CourierForDelivery> couriersForDelivery = robotDao.GetAllActiveRobotsWithCurrentStatisticsAndOrders(out string error);
+            return couriersForDelivery;
+        }
+
+        public List<CourierForDelivery> GetDistanceAndDuration()
+        {
+            List<CourierForDelivery> initialCouriers = this.GetAllActiveRobotsWithCurrentStatisticsAndOrders();
+            List<CourierForDelivery> couriersForDelivery = new List<CourierForDelivery>();
+            foreach (CourierForDelivery courierForDelivery in initialCouriers)
+            {
+                try
+                {
+                    string url = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62488303e1e1bcb64deb91105af7032e30d4&start=" + courierForDelivery.Robot.CurrentRobotStatistics.Latitude.ToString() + "," + courierForDelivery.Robot.CurrentRobotStatistics.Longitude.ToString() + "&end=" + restaurantLatitude + "," + restaurantLongitude;
+                    try
+                    {
+                        if (courierForDelivery.Delivery.Order.Longitude != 0 && courierForDelivery.Delivery.Order.Latitude != 0)
+                        {
+                            url = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62488303e1e1bcb64deb91105af7032e30d4&start=" + courierForDelivery.Delivery.Order.Latitude.ToString() + "," + courierForDelivery.Delivery.Order.Longitude.ToString() + "&end=" + restaurantLatitude + "," + restaurantLongitude;
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                    Console.WriteLine(url);
+                    string json = get_web_content(url);
+                    dynamic array = JsonConvert.DeserializeObject(json);
+                    courierForDelivery.Distance = array.features[0].properties.summary.distance / 1000;
+                    courierForDelivery.Duration = array.features[0].properties.summary.duration / 60;
+                }
+                catch
+                {
+                    courierForDelivery.Distance = 1000;
+                    courierForDelivery.Duration = 1000;
+                }
+                
+                couriersForDelivery.Add(courierForDelivery);
+            }
             return couriersForDelivery;
         }
     }

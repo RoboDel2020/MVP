@@ -46,4 +46,10 @@
     <Content Remove="wwwroot\images\" />
     <Content Remove="wwwroot\css\images\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Views\MainMenu\Index.html">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
 </Project>

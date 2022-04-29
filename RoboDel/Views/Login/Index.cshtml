@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,63 +16,73 @@
 
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="~/css/jquery.mCustomScrollbar.min.css">
-    <style>
-        .container,pb3{
-           width: 100%;
-           max-width: 3000px;
-           margin: 0px;
-           padding: 0px;
+    <style type="text/css">
+        .container, pb3 {
+            width: 100%;
+            max-width: 3000px;
+            margin: 0px;
+            padding: 0px;
         }
+
         .main_form {
             margin: 0px 0px 0px 0px;
             background: #fff;
         }
+
+        #contact {
+            background-color: transparent;
+            background: url("https://drive.google.com/uc?export=view&id=1f7Y5rS-SKDIAmRUojHc_2HbqDVa3U49_") no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        div.picture1 {
+            width: 15%; /*width of your image*/
+            height: 5%; /*height of your image*/
+            background-image: url("https://drive.google.com/uc?export=view&id=1By3ccLEiKKJqrtn5Tpsy32YELObXkOEP");
+            margin: 0; /* If you want no margin */
+            padding: 0; /*if your want to padding */
+        }
     </style>
 </head>
-
 <body class="main-layout">
-    
+
     <!-- end loader -->
     <div id="contact" class="contact">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="titlepage">
-                        <h2>RoboDel</h2>
-                        <span></span>
-                        <strong></strong>
+                        <div><img src="https://drive.google.com/uc?export=view&id=1zbGbql_wmWZP63LvTipzswVVMX-BAGuu" style="width: 24%; height: 8%;"></div>
+
                     </div>
                 </div>
             </div>
             <div class="container" align="center">
-                <div  align="center">
-                    
-                        <form class="main_form" align="center">
-                            <h2>Sign In</h2>
-                            <hr>
-                            <div class="row">
-                                    <input class="contactus" placeholder="Username" type="text" id="credentials">
-                            </div>
-                            <div class="row">
-                                    <input class="contactus" placeholder="Password" type="password" id="password">
-                            </div>
-                            <div class="row">
-                                    <button class="send_btn" type="button" onclick="ValidateLogin()">Login</button>
-                            </div>
-                            <hr>
-                            <br>
-                            <br>
-                            <h2>New User</h2>
-                            <div class="row">
-                                    <button class="send_btn" type="button" onclick="RegisterUser()">Register</button>
-                            </div>
-                            <br>
-                            <h2>Restaurants</h2>
-                            <div class="row">
-                                    <button class="send_btn" type="button" onclick="LoginAsARestaurant()">Login as a Restaurant</button>
-                            </div>
+                <div align="center">
 
-                        </form>
+                    <form class="main_form" align="center" style="margin-left: 50%; border-radius: 25px;">
+                        <h2>Sign In</h2>
+                        <hr>
+                        <div class="row">
+                            <input class="contactus" placeholder="Username" type="text" id="credentials">
+                        </div>
+                        <div class="row">
+                            <input class="contactus" placeholder="Password" type="password" id="password">
+                        </div>
+                        <div class="row">
+                            <button class="send_btn" type="button" onclick="ValidateLogin()">Login</button>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <button class="send_btn" type="button" onclick="RegisterUser()">Register</button>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <button class="send_btn" type="button" onclick="LoginAsARestaurant()">Login as a Restaurant</button>
+                        </div>
+
+                    </form>
                 </div>
             </div>
         </div>
