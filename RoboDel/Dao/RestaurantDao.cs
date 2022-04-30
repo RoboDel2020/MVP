@@ -67,6 +67,36 @@ namespace RoboDel.Dao
             }
         }
 
+        public bool UpdateRestaurant(string status, string name, string email, string password, string type, double price, string phoneNumber, string address, string city, string state, string postalCode, string country, double latitude, double longitude, out string error)
+        {
+            error = string.Empty;
+
+            if (String.IsNullOrEmpty(email) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(name) || String.IsNullOrEmpty(type) || String.IsNullOrEmpty(phoneNumber) || String.IsNullOrEmpty(address) || String.IsNullOrEmpty(city) || String.IsNullOrEmpty(country))
+            {
+                error = "Please add all the fields to edit restaurant account!";
+                return false;
+            }
+            using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
+            {
+                try
+                {
+                    conn.Open();
+                    string insert = "UPDATE Restaurant " +
+                                    $"SET Email='{email}', Password = '{password}', Name = '{name}', Type = '{type}', Price = {price}, Status = '{status}', PhoneNumber = '{phoneNumber}',Address = '{address}',City = '{city}',State = '{state}',Zip = '{postalCode}',Country = '{country}',Latitude = {latitude},Longitude = {longitude} " +
+                                    $"WHERE Email = '{email}' ;";
+                    MySqlCommand command = new MySqlCommand(insert, conn);
+                    command.ExecuteNonQuery();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Database Error (Users): Cannot update the restaurant in database {e.Message}");
+                    error = "Cannot update the restaurant in database";
+                    return false;
+                }
+            }
+        }
+
         public bool ValidateRestaurant(string emailInput, out string error)
         {
             error = string.Empty;
@@ -155,99 +185,7 @@ namespace RoboDel.Dao
         }
 
 
-        //public User GetRegisteredInfoByEmail(string userEmail, out string error)
-        //{
-        //    error = string.Empty;
-        //    User user = new User();
-        //    PostalCode postalCode = new PostalCode();
-        //    Phone phone = new Phone();
-
-        //    using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
-        //    {
-        //        try
-        //        {
-        //            conn.Open();
-        //            string query = "SELECT u.Email, Nickname, Password, FirstName, LastName, u.PostalCode, City, State, PhoneNumber, Type, CAST(IfShare as CHAR) as IfShare " +
-        //                                   "FROM User u JOIN PostalCode p ON u.PostalCode = p.PostalCode LEFT JOIN Phone ph ON u.Email = ph.Email " +
-        //                                    $"WHERE u.Email ='{userEmail}';";
-        //            MySqlCommand command = new MySqlCommand(query, conn);
-        //            MySqlDataReader reader = command.ExecuteReader();
-        //            while (reader.Read())
-        //            {
-        //                user.Email = reader.GetString("Email");
-        //                user.Nickname = reader.GetString("Nickname");
-        //                user.Password = reader.GetString("Password");
-        //                user.FirstName = reader.GetString("FirstName");
-        //                user.LastName = reader.GetString("LastName");
-        //                postalCode.Code = reader.GetString("PostalCode");
-        //                postalCode.City = reader.GetString("City");
-        //                postalCode.State = reader.GetString("State");
-        //                try
-        //                {
-        //                    phone.PhoneNumber = reader.GetString("PhoneNumber");
-        //                }
-        //                catch (Exception e)
-        //                {
-        //                    phone.PhoneNumber = "";
-        //                }
-        //                try
-        //                {
-        //                    phone.Type = reader.GetString("Type");
-        //                }
-        //                catch (Exception e)
-        //                {
-        //                    phone.Type = "";
-        //                }
-        //                try
-        //                {
-        //                    phone.IfShare = reader.GetString("IfShare");
-        //                }
-        //                catch (Exception e)
-        //                {
-        //                    phone.IfShare = "-1.0";
-        //                }
-        //                user.PostalCode = postalCode;
-
-        //                user.Phone = phone;
-
-        //            }
-        //            reader.Close();
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Debug.WriteLine($"Failed to get the User Information {e.Message}");
-        //            error = "No User with that email";
-        //            user = null;
-        //        }
-        //    }
-        //    return user;
-        //}
-
-        //public bool UpdateUserInfoByEmail(string email, string password, string nickname, string firstName, string lastName, string postalCode, out string error)
-        //{
-        //    error = string.Empty;
-
-        //    using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
-        //    {
-        //        try
-        //        {
-        //            conn.Open();
-        //            string query = "UPDATE User " +
-        //                            $"SET Nickname = '{nickname}',Password = '{password}',FirstName = '{firstName}',LastName = '{lastName}',PostalCode = '{postalCode}' " +
-        //                            $"WHERE Email = '{email}'; ";
-        //            MySqlCommand command = new MySqlCommand(query, conn);
-        //            command.ExecuteNonQuery();
-        //            return true;
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Debug.WriteLine($"Database Error (Users): Cannot update the user in the database {e.Message}");
-        //            error = "Cannot update the user in database";
-        //            return false;
-        //        }
-        //    }
-        //}
-
+       
         
         public Restaurant GetRestaurantDetails(string restaurantEmail, out string error)
         {

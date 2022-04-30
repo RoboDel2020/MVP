@@ -43,36 +43,42 @@
                     <th><b>Status</b></th>
                     <th><b>City</b></th>
                     <th><b>Country</b></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (Restaurant restaurant in ViewBag.restaurants)
                 {
-                    <tr>
-                        <td>@restaurant.Name</td>
-                        <td>@restaurant.Type</td>
-                        <td>@restaurant.Email</td>
-                        <td>@restaurant.PhoneNumber</td>
-                        <td>@restaurant.Status</td>
-                        <td>@restaurant.City</td>
-                        <td>@restaurant.Country</td>
-                    </tr>
+                <tr>
+                    <td>@restaurant.Name</td>
+                    <td>@restaurant.Type</td>
+                    <td>@restaurant.Email</td>
+                    <td>@restaurant.PhoneNumber</td>
+                    <td>@restaurant.Status</td>
+                    <td>@restaurant.City</td>
+                    <td>@restaurant.Country</td>
+                    <td><button class="btn btn-warning" type="button" onclick="EditRestaurant('@restaurant.Email.ToString()')">Edit</button></td>
+                </tr>
                 }
             </tbody>
         </table>
 
-        <script>$(document).ready(function () {
+        <script>
+            $(document).ready(function () {
                 $('#restaurantsTable').DataTable();
-            });</script>
-        <script>function AddRestaurant() {
+            });
+        </script>
+
+        <script>
+            function EditRestaurant(email) {
                 $.ajax({
                     type: "POST",
-                    url: "/AdminAddRestaurants/GoToAddRestaurant",
+                    url: "/AdminEditRestaurants/GoToEditRestaurant",
                     async: true,
                     dataType: "json",
-                    data: {},
+                    data: {restaurantEmail: email},
                     success: function (data) {
-                        window.location.href = '/AdminAddRestaurants/Index';
+                        window.location.href = '/AdminEditRestaurants/Index';
                     }
                 });
             }</script>

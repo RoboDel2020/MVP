@@ -50,6 +50,7 @@
     <Folder Include="Views\AdminAddRestaurants\" />
     <Folder Include="Views\AdminEmployees\" />
     <Folder Include="Views\AdminAddEmployees\" />
+    <Folder Include="Views\AdminEditRestaurants\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\" />
