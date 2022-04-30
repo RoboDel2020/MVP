@@ -286,109 +286,14 @@
             </div>
         </div>
 
-        <!--Assign Robot  Modal -->
-        @*<div class="modal fade" id="AddRobotDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Assign the Order to a Robot</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="orderIdRobot">Order ID:</label>
-                            <input type="text" id="orderIdRobot" name="orderIdRobot" disabled>
-                            <label for="orderLongitude">Longitude:</label>
-                            <input type="text" id="orderLongitude" name="orderLongitude" disabled>
-                            <label for="orderLatitude">Latitude:</label>
-                            <input type="text" id="orderLatitude" name="orderLatitude" disabled>
-
-                            <label for="restaurantLongitude">Restaurant Longitude:</label>
-                            <input type="text" id="restaurantLongitude" name="restaurantLongitude" disabled>
-                            <label for="restaurantLatitude">Restaurant Latitude:</label>
-                            <input type="text" id="restaurantLatitude" name="restaurantLatitude" disabled>
-
-                            <table id="robotsTable" class="table table-bordered table-striped" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th><b>RID</b></th>
-                                        <th><b>Location</b></th>
-                                        <th><b>Battery</b></th>
-                                        <th><b>DID</b></th>
-                                        <th><b>Coordinates</b></th>
-                                        <th><b>Distance</b></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (CourierForDelivery courierForDelivery in ViewBag.allActiveCouriersForDelivery)
-                                    {
-                                        <tr>
-                                            <td>@courierForDelivery.Robot.CourierID</td>
-                                            <td>@courierForDelivery.Robot.City @courierForDelivery.Robot.State @courierForDelivery.Robot.Country</td>
-                                            <td>@courierForDelivery.Robot.CurrentRobotStatistics.Battery %</td>
-                                            @if (@courierForDelivery.Delivery.ID > 0)
-                                            {
-                                                <td>@courierForDelivery.Delivery.ID</td>
-                                            }
-                                            else
-                                            {
-                                                <td></td>
-                                            }
-                                            @if (@courierForDelivery.Delivery.Order.Longitude != 0 && @courierForDelivery.Delivery.Order.Latitude != 0)
-                                            {
-                                                <td>@courierForDelivery.Delivery.Order.Longitude @courierForDelivery.Delivery.Order.Latitude</td>
-                                            }
-                                            else
-                                            {
-                                                <td>@courierForDelivery.Robot.CurrentRobotStatistics.Longitude @courierForDelivery.Robot.CurrentRobotStatistics.Latitude</td>
-                                            }
-
-                                            @if (@courierForDelivery.Delivery.Order.Longitude != 0 && @courierForDelivery.Delivery.Order.Latitude != 0)
-                                            {
-                                                <td>
-                                                    <script type="text/javascript">document.write(produceMessage(@courierForDelivery.Delivery.Order.Longitude, @courierForDelivery.Delivery.Order.Latitude, myCoordinates.longitude, myCoordinates.latitude))</script>
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <td>
-                                                    <script type="text/javascript">document.write(produceMessage(@courierForDelivery.Robot.CurrentRobotStatistics.Longitude, @courierForDelivery.Robot.CurrentRobotStatistics.Latitude, myCoordinates.longitude, myCoordinates.latitude))</script>
-                                                </td>
-                                            }
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <div class="col-md-6">
-                            <div id="map" style="width: 100%; height: 580px"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="AddCoordinates()">Save changes</button>
-                    <button type="button" class="btn btn-primary" onclick="loadMoreCode()">Add HTML</button>
-                </div>
-                <script>
-                    function loadMoreCode() {
-                        console.log($(".modal-body #restaurantLongitude").val());
-                    }
-                </script>
-            </div>
-            </div >
-        </div >*@
 
 
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
 
 
-        <script>$(document).on("click", ".open-AddParkingDialog", function () {
+        <script>
+            $(document).on("click", ".open-AddParkingDialog", function () {
                 var orderId = $(this).data('id');
                 $(".modal-body #orderId").val(orderId);
 
@@ -420,53 +325,7 @@
                 }, "1000");
             });</script>
 
-        @*<script>$(document).on("click", ".open-AddRobotDialog", function () {
-            var orderId = $(this).data('id');
-            var longitude = $(this).data('longitude');
-            var latitude = $(this).data('latitude');
-            var restaurantLongitude = $(this).data('rlongitude');
-            var restaurantLatitude = $(this).data('rlatitude');
-            myCoordinates.longitude = longitude;
-            myCoordinates.latitude = latitude;
-            myCoordinates.restaurantLongitude = restaurantLongitude;
-            myCoordinates.restaurantLatitude = restaurantLatitude;
-            console.log('44444444444444:    ', myCoordinates.restaurantLongitude);
-            console.log('55555555555555:    ', myCoordinates.longitude);
-            $(".modal-body #orderIdRobot").val(orderId);
-            $(".modal-body #orderLongitude").val(longitude);
-            $(".modal-body #orderLatitude").val(latitude);
-            $(".modal-body #restaurantLongitude").val(restaurantLongitude);
-            $(".modal-body #restaurantLatitude").val(restaurantLatitude);
-
-
-
-            var address = $(this).data('address');
-            var city = $(this).data('city');
-            var state = $(this).data('state');
-            var country = $(this).data('country');
-
-            if (state.length > 0) {
-                stateFin = ',+' + state.replace(/\s/g, '+');
-            }
-            else {
-                stateFin = '';
-            }
-            var urll = 'https://nominatim.openstreetmap.org/search?q=' + address.replace(/\s/g, '+') + ',+' + city.replace(/\s/g, ' +') + stateFin + ',+' + country.replace(/\s/g, '+') + '&format=json&polygon=1&addressdetails=1';
-            fetch(urll)
-                .then(result => result.json(urll))
-                .then((output) => {
-                    map.setView([output[0].lat, output[0].lon], 20);
-                    marker = new L.marker([output[0].lat, output[0].lon], iconOptionsRed)
-                        .bindPopup("Customer")
-                        .addTo(map);
-                    console.log(output[0].lat, output[0].lon);
-
-                }).catch(err => console.error(err));
-
-            setTimeout(() => {
-                map.invalidateSize();
-            }, "1000");
-        });</script>*@
+   
         <script>$(document).ready(function () {
                 $('#robotsTable').DataTable();
             });</script>

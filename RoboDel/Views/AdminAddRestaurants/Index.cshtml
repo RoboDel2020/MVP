@@ -1,0 +1,301 @@
+﻿@{
+    @using System;
+    @using System.Web;
+    ViewData["Title"] = "Main Menu Page";
+    @using Microsoft.AspNetCore.Http
+}
+
+
+<html>
+<head>
+    <style>
+        .maincontainer {
+            margin: 0px 50px 0px 50px;
+            ;
+        }
+    </style>
+    <link rel="stylesheet" href="~/css/leaflet.css" />
+    <script src="~/js/leaflet.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+</head>
+<body>
+    <div class="maincontainer">
+
+        <header align="center">
+            <br>
+            <br><br>
+            <h1>Add a Restaurant</h1>
+            <hr>
+        </header>
+        <div class="row">
+            <div class="col-md-6">
+                <form align="center" method="post" action="#">
+                    <table style="width:40%" class="table" align="center">
+                        <tr>
+                            <td>Name</td>
+                            <td alignment="center"><input type="text" name="name" id="name" style="width: 300px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td alignment="center"><input type="text" name="email" id="email" style="width: 300px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Password </td>
+                            <td alignment="center"><input type="password" name="password" id="password" style="width: 300px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Type</td>
+                            <td>
+                                <select id="type" style="width: 300px; height: 30px">
+                                    <option value="fastfood">FastFood</option>
+                                    <option value="mexican">Mexican</option>
+                                    <option value="asian">Asian</option>
+                                    <option value="steakhouse">Steakhouse</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Price</td>
+                            <td>
+                                <select id="price" style="width: 300px; height: 30px ">
+                                    <option value="1">$</option>
+                                    <option value="2">$$</option>
+                                    <option value="3">$$$</option>
+                                    <option value="4">$$$$</option>
+                                    <option value="5">$$$$$</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Phone Number</td>
+                            <td alignment="center"><input type="text" name="phoneNumber" id="phoneNumber" style="width: 300px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Address</td>
+                            <td alignment="center"><input type="text" name="address" id="address" style="width: 300px" /></td>
+                        </tr>
+                        <tr>
+                            <td>City </td>
+                            <td alignment="center"><input type="text" name="city" id="city" style="width: 300px" /></td>
+                        </tr>
+                        <tr>
+                            <td>State</td>
+                            <td alignment="center"><input type="text" name="state" id="state" style="width: 300px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Postal Code</td>
+                            <td alignment="center"><input type="text" name="postalCode" id="postalCode" style="width: 300px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Country</td>
+                            <td>
+                                <select id="country" style="width: 300px; height: 30px ">
+                                    <option value="Armenia">Armenia</option>
+                                    <option value="US">US</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td alignment="center"><input type="button" value="Add Pickup Location" class="btn btn-danger" onclick="AddPickupLocation()" style="width: 200px" /></td>
+                        </tr>
+                        <tr>
+                            <td>Pickup Latitude</td>
+                            <td alignment="center"><input type="text" name="latitude" id="latitude" style="width: 300px" disabled /></td>
+                        </tr>
+                        <tr>
+                            <td>Pickup Longitude</td>
+                            <td alignment="center"><input type="text" name="longitude" id="longitude" style="width: 300px" disabled /></td>
+                        </tr>
+                        <tr>
+                            <td alignment="center"><input type="button" value="Add" class="btn btn-success" onclick="AddRestaurant()" style="width: 200px" /></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div id="map" style="width: 100%; height: 580px"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        @* Runs the login function*@
+        function AddRestaurant() {
+            if ($("#latitude").val().length > 0 && $("#longitude").val().length > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "/AdminAddRestaurants/AddRestaurant",
+                    async: true,
+                    dataType: "json",
+                    data: { name: $("#name").val(), email: $("#email").val(), password: $("#password").val(), type: $("#type").val(), price: $("#price").val(), phoneNumber: $("#phoneNumber").val(), address: $("#address").val(), city: $("#city").val(), state: $("#state").val(), postalCode: $("#postalCode").val(), country: $("#country").val(), latitude: $("#latitude").val(), longitude: $("#longitude").val() },
+                    success: function (data) {
+                        if (data.errMsg != "") {
+                            alert(String(data.errMsg));
+                        } else {
+                            window.location.href = '/AdminRestaurants/Index';
+                        }
+                    },
+                    error: function () {
+                        return "error";
+                    }
+                });
+            } else {
+                alert('Please Add Pickup Location!!');
+            }
+            
+        }
+
+        function AddPickupLocation() {
+            var address = $("#address").val();
+            var city = $("#city").val();
+            var country = $("#country").val();
+            var state = $("#state").val();
+
+            if (address.length > 0 && city.length > 0) {
+                if (state.length > 0) {
+                    stateFin = ',+' + state.replace(/\s/g, '+');
+                }
+                else {
+                    stateFin = '';
+                }
+                var urll = 'https://nominatim.openstreetmap.org/search?q=' + address.replace(/\s/g, '+') + ',+' + city.replace(/\s/g, ' +') + stateFin + ',+' + country.replace(/\s/g, '+') + '&format=json&polygon=1&addressdetails=1';
+                fetch(urll)
+                    .then(result => result.json(urll))
+                    .then((output) => {
+                        map.setView([output[0].lat, output[0].lon], 20);
+                        marker = new L.marker([output[0].lat, output[0].lon], iconOptionsRed)
+                            .bindPopup("Restaurant Address")
+                            .addTo(map);
+                        console.log(output[0].lat, output[0].lon);
+
+                    }).catch(err => console.error(err));
+
+                @*setTimeout(() => {
+                    map.invalidateSize();
+                }, "1000");*@
+            }
+            else {
+                alert('Please enter Address, City, and Country!')
+            }
+        }
+    </script>
+    <script><script>$(document).ready(function () {
+            $('#robotsTable').DataTable();
+                });</script>
+    <script>
+        let customIconGreen = {
+        iconUrl: "https://drive.google.com/uc?export=view&id=1UzHM1VgWffMn06Lj4iSRSQzOlQSBWw3K",
+            iconSize: [40, 40]
+        }
+
+        let myIconGreen = L.icon(customIconGreen);
+
+        let iconOptionsGreen = {
+        title: "Parking",
+            draggable: true,
+            icon: myIconGreen
+        }
+        let customIconRed = {
+        iconUrl: "https://drive.google.com/uc?export=view&id=11bv7ohdrxLAmR_lOXQ_WFAQpQbRsOkG9",
+            iconSize: [40, 40]
+        }
+
+        let myIconRed = L.icon(customIconRed);
+
+        let iconOptionsRed = {
+        title: "Address",
+            draggable: false,
+            icon: myIconRed
+        }
+
+        var map = L.map('map').setView([51.958, 9.141], 20);
+        mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; ' + mapLink + ' Contributors',
+            maxZoom: 18,
+        }).addTo(map);
+
+
+
+        var theMarker = { };
+
+        map.on('click', function (e) {
+        lat = e.latlng.lat;
+            lon = e.latlng.lng;
+
+            //Clear existing marker,
+            $("#latitude").val(lat);
+            $("#longitude").val(lon);
+            if (theMarker != undefined) {
+                map.removeLayer(theMarker);
+             };
+
+            theMarker = L.marker([lat, lon], iconOptionsGreen).addTo(map);
+        });
+
+    </script>
+    <script src="~/js/jquery-3.0.0.min.js"></script>
+    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

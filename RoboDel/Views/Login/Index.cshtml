@@ -73,11 +73,6 @@
                             <button class="send_btn" type="button" onclick="ValidateLogin()">Login</button>
                         </div>
                         <hr>
-
-                        <div class="row">
-                            <button class="send_btn" type="button" onclick="RegisterUser()">Register</button>
-                        </div>
-                        <hr>
                         <div class="row">
                             <button class="send_btn" type="button" onclick="LoginAsARestaurant()">Login as a Restaurant</button>
                         </div>
@@ -110,19 +105,7 @@
             });
         }
 
-        @* Go to Register Page *@
-        function RegisterUser() {
-            $.ajax({
-                type: "POST",
-                url: "/Login/ValidateLogin",
-                async: true,
-                dataType: "json",
-                data: {},
-                success: function (data) {
-                    window.location.href = '/Register/Index';
-                }
-            });
-        }
+        
 
         @* Go to Login as a Restaurant Page *@
         function LoginAsARestaurant() {

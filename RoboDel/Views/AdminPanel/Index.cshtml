@@ -1,0 +1,175 @@
+﻿@{
+    @using System;
+    @using System.Web;
+    ViewData["Title"] = "Main Menu Page";
+    @using Microsoft.AspNetCore.Http
+}
+
+<html>
+<head>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <style>
+        .btn {
+            width: 28%;
+            height: 23%;
+            margin: 2%;
+            border: 3px solid;
+            border-radius: 25px;
+            font-size:larger;
+        }
+    </style>
+
+</head>
+<body>
+    <button onclick="GoToAdminRestaurants()" class="btn btn-outline-warning"><i class='fas fa-utensils' style='font-size: 70px; color: #f5b708'></i><br><span>Restaurants</span> </button>
+    <button onclick="GoToAdminCustomers()" class="btn btn-outline-warning"><i class="fa fa-users fa-4x"></i><br><span>Customers</span> </button>
+    <button onclick="GoToAdminRobots()" class="btn btn-outline-warning"><i class='fas fa-robot' style='font-size: 70px; color: #f5b708'></i><br><span>Robots</span> </button>
+    <button onclick="GoToAdminEmployees()" class="btn btn-outline-warning"><i class="fas fa-user-secret" style='font-size: 70px; color: #f5b708'></i><br><span>Employees</span> </button>
+    <button onclick="GoToAdminOrders()" class="btn btn-outline-warning"><i class="fas fa-file-invoice" style='font-size: 70px; color: #f5b708'></i><br><span>Orders</span> </button>
+    <button onclick="GoToAdminDeliveries()" class="btn btn-outline-warning"><i class="fab fa-opencart" style='font-size: 70px; color: #f5b708'></i><br><span>Deliveries</span> </button>
+
+
+
+    <!-- Javascript files-->
+    <script>
+        function GoToAdminRestaurants() {
+            $.ajax({
+                type: "POST",
+                url: "/AdminRestaurants/GoToAdminRestaurants",
+                async: true,
+                dataType: "json",
+                data: {},
+                success: function (data) {
+                    window.location.href = '/AdminRestaurants/Index';
+                }
+            });
+        }
+
+        function GoToAdminCustomers() {
+            $.ajax({
+                type: "POST",
+                url: "/AdminCustomers/GoToAdminCustomers",
+                async: true,
+                dataType: "json",
+                data: {},
+                success: function (data) {
+                    window.location.href = '/AdminCustomers/Index';
+                }
+            });
+        }
+
+        function GoToAdminRobots() {
+            $.ajax({
+                type: "POST",
+                url: "/AdminRobots/GoToAdminRobots",
+                async: true,
+                dataType: "json",
+                data: {},
+                success: function (data) {
+                    window.location.href = '/AdminRobots/Index';
+                }
+            });
+        }
+
+        function GoToAdminOrders() {
+            $.ajax({
+                type: "POST",
+                url: "/Order/GoToAllOrders",
+                async: true,
+                dataType: "json",
+                data: {},
+                success: function (data) {
+                    window.location.href = '/Order/Index';
+                }
+            });
+        }
+
+        function GoToAdminEmployees() {
+            $.ajax({
+                type: "POST",
+                url: "/AdminEmployees/GoToAdminEmployees",
+                async: true,
+                dataType: "json",
+                data: {},
+                success: function (data) {
+                    window.location.href = '/AdminEmployees/Index';
+                }
+            });
+        }
+
+        function GoToAdminDeliveries() {
+            $.ajax({
+                type: "POST",
+                url: "/AdminDeliveries/GoToAdminDeliveries",
+                async: true,
+                dataType: "json",
+                data: {},
+                success: function (data) {
+                    window.location.href = '/AdminDeliveries/Index';
+                }
+            });
+        }
+    </script>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery-3.0.0.min.js"></script>
+    <script src="~/js/plugin.js"></script>
+    <!-- sidebar -->
+    <script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

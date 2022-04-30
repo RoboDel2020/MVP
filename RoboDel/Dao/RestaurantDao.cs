@@ -38,34 +38,34 @@ namespace RoboDel.Dao
             return count != 0;
         }
 
-        //public bool RegisterUser(string email, string password, string nickname, string firstName, string lastName, string postalCode, out string error)
-        //{
-        //    error = string.Empty;
+        public bool RegisterRestaurant(string name, string email, string password, string type, double price, string phoneNumber, string address, string city, string state, string postalCode, string country, double latitude, double longitude, out string error)
+        {
+            error = string.Empty;
 
-        //    if (String.IsNullOrEmpty(email) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(nickname) || String.IsNullOrEmpty(firstName) || String.IsNullOrEmpty(lastName) || String.IsNullOrEmpty(postalCode))
-        //    {
-        //        error = "Not all values supplied. Could not create user account.";
-        //        return false;
-        //    }
-        //    using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
-        //    {
-        //        try
-        //        {
-        //            conn.Open();
-        //            string insert = "INSERT INTO User(Email, Password, Nickname, FirstName, LastName, PostalCode)" +
-        //                            $"VALUES ('{email}','{password}','{nickname}','{firstName}','{lastName}','{postalCode}');";
-        //            MySqlCommand command = new MySqlCommand(insert, conn);
-        //            command.ExecuteNonQuery();
-        //            return true;
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Debug.WriteLine($"Database Error (Users): Cannot enter a new user in database {e.Message}");
-        //            error = "Cannot enter a new user in database";
-        //            return false;
-        //        }
-        //    }
-        //}
+            if (String.IsNullOrEmpty(email) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(name) || String.IsNullOrEmpty(type) || String.IsNullOrEmpty(phoneNumber) || String.IsNullOrEmpty(address) || String.IsNullOrEmpty(city)  || String.IsNullOrEmpty(country))
+            {
+                error = "Please add all the fields to create restaurant account!";
+                return false;
+            }
+            using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
+            {
+                try
+                {
+                    conn.Open();
+                    string insert = "INSERT INTO Restaurant " +
+                                    $"VALUES ('{email}','{password}','{name}','{type}',{price},'active','{phoneNumber}','{address}','{city}','{state}','{postalCode}','{country}',{latitude},{longitude});";
+                    MySqlCommand command = new MySqlCommand(insert, conn);
+                    command.ExecuteNonQuery();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Database Error (Users): Cannot enter a new restaurant in database {e.Message}");
+                    error = "Cannot enter a new restaurant in database";
+                    return false;
+                }
+            }
+        }
 
         public bool ValidateRestaurant(string emailInput, out string error)
         {

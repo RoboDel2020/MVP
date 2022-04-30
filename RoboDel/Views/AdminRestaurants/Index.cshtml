@@ -1,0 +1,136 @@
+﻿@{
+    @using System;
+    @using System.Web;
+    ViewData["Title"] = "Main Menu Page";
+    @using Microsoft.AspNetCore.Http
+}
+
+
+<html>
+<head>
+    <style>
+        .maincontainer {
+            margin: 0px 50px 0px 50px;
+            ;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+</head>
+<body>
+    <div class="maincontainer">
+
+        <br>
+        <br><br>
+        <h1>All Restaurants <button class="btn btn-success" type="button" style="float: right;" onclick="AddRestaurant()">Add Restaurant</button></h1>
+        <br>
+        <br>
+
+
+        <table id="restaurantsTable" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th><b>Name</b></th>
+                    <th><b>Type</b></th>
+                    <th><b>Email</b></th>
+                    <th><b>Phone</b></th>
+                    <th><b>Status</b></th>
+                    <th><b>City</b></th>
+                    <th><b>Country</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Restaurant restaurant in ViewBag.restaurants)
+                {
+                    <tr>
+                        <td>@restaurant.Name</td>
+                        <td>@restaurant.Type</td>
+                        <td>@restaurant.Email</td>
+                        <td>@restaurant.PhoneNumber</td>
+                        <td>@restaurant.Status</td>
+                        <td>@restaurant.City</td>
+                        <td>@restaurant.Country</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <script>$(document).ready(function () {
+                $('#restaurantsTable').DataTable();
+            });</script>
+        <script>function AddRestaurant() {
+                $.ajax({
+                    type: "POST",
+                    url: "/AdminAddRestaurants/GoToAddRestaurant",
+                    async: true,
+                    dataType: "json",
+                    data: {},
+                    success: function (data) {
+                        window.location.href = '/AdminAddRestaurants/Index';
+                    }
+                });
+            }</script>
+        <script src="~/js/jquery-3.0.0.min.js"></script>
+        <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
