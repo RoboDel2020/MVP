@@ -28,6 +28,7 @@
     <None Remove="Views\AdminPanel\" />
     <None Remove="Views\AdminRestaurants\" />
     <None Remove="Views\AdminRestaurants %28copy%29\" />
+    <None Remove="Views\AdminAddRestaurants %28copy%29\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\UpdateUser\" />
@@ -47,6 +48,8 @@
     <Folder Include="Views\AdminPanel\" />
     <Folder Include="Views\AdminRestaurants\" />
     <Folder Include="Views\AdminAddRestaurants\" />
+    <Folder Include="Views\AdminEmployees\" />
+    <Folder Include="Views\AdminAddEmployees\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\" />

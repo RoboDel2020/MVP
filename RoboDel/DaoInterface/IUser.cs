@@ -9,6 +9,8 @@ namespace RoboDel.DaoInterface
     public interface IUser
     {
         public bool UserExists(string username);
+        public List<User> GetAllUsers(out string error);
+
         //public bool RegisterUser(string email, string password, string nickname, string firstName, string lastName, string postalCode, out string error);
         public bool ValidateUser(string usernameInput, out string error);
         public User ValidatePassword(string username, string password, out string error);

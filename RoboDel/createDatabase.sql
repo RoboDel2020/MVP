@@ -90,6 +90,13 @@ CREATE TABLE Role (
   PRIMARY KEY (Role)
 );
 
+INSERT INTO Role
+Values('admin');
+INSERT INTO Role
+Values('operator');
+INSERT INTO Role
+Values('courier');
+
 CREATE TABLE UserRole (
   Username varchar(50) NOT NULL,
   Role char(20) NOT NULL,
@@ -97,6 +104,12 @@ CREATE TABLE UserRole (
   FOREIGN KEY (Role) REFERENCES Role (Role),
   FOREIGN KEY (Username) REFERENCES User (Username)
 );
+INSERT INTO UserRole
+Values("username001","admin");
+INSERT INTO UserRole
+Values("username002","operator");
+INSERT INTO UserRole
+Values("username002","courier");
 
 CREATE TABLE `Order` (
   ID int UNSIGNED NOT NULL AUTO_INCREMENT,

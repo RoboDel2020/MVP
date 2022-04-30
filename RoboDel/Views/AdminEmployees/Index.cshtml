@@ -1,0 +1,144 @@
+﻿@{
+    @using System;
+    @using System.Web;
+    ViewData["Title"] = "Main Menu Page";
+    @using Microsoft.AspNetCore.Http
+}
+
+
+<html>
+<head>
+    <style>
+        .maincontainer {
+            margin: 0px 50px 0px 50px;
+            ;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+</head>
+<body>
+    <div class="maincontainer">
+
+        <br>
+        <br><br>
+        <h1>All Employees <button class="btn btn-success" type="button" style="float: right;" onclick="AddEmployee()">Add Employee</button></h1>
+        <br>
+        <br>
+
+
+        <table id="restaurantsTable" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th><b>Username</b></th>
+                    <th><b>First Name</b></th>
+                    <th><b>Last Name</b></th>
+                    <th><b>Email</b></th>
+                    <th><b>Phone Number</b></th>
+                    <th><b>Status</b></th>
+                    <th><b>Full Address</b></th>
+                    <th><b>Roles</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (User user in ViewBag.users)
+                {
+                <tr>
+                    <td>@user.Username</td>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.Email</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>@user.Status</td>
+                    <td>@user.Address, @user.City, @user.Country  </td>
+                    
+                    <td>
+                        @foreach (String role in @user.Roles)
+                        {
+                            @role @ViewBag.blankspace
+                        }
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <script>$(document).ready(function () {
+                $('#restaurantsTable').DataTable();
+            });</script>
+        <script>function AddEmployee() {
+                $.ajax({
+                    type: "POST",
+                    url: "/AdminAddEmployees/GoToAddAddEmployee",
+                    async: true,
+                    dataType: "json",
+                    data: {},
+                    success: function (data) {
+                        window.location.href = '/AdminAddEmployees/Index';
+                    }
+                });
+            }</script>
+        <script src="~/js/jquery-3.0.0.min.js"></script>
+        <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -38,34 +38,63 @@ namespace RoboDel.Dao
             return count != 0;
         }
 
-        //public bool RegisterUser(string email, string password, string nickname, string firstName, string lastName, string postalCode, out string error)
-        //{
-        //    error = string.Empty;
+        public bool RegisterUser(string username, string email, string password, string phoneNumber, string address, string city, string state, string postalCode, string country, string firstName, string lastName, out string error)
+        {
+            error = string.Empty;
 
-        //    if (String.IsNullOrEmpty(email) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(nickname) || String.IsNullOrEmpty(firstName) || String.IsNullOrEmpty(lastName) || String.IsNullOrEmpty(postalCode))
-        //    {
-        //        error = "Not all values supplied. Could not create user account.";
-        //        return false;
-        //    }
-        //    using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
-        //    {
-        //        try
-        //        {
-        //            conn.Open();
-        //            string insert = "INSERT INTO User(Email, Password, Nickname, FirstName, LastName, PostalCode)" +
-        //                            $"VALUES ('{email}','{password}','{nickname}','{firstName}','{lastName}','{postalCode}');";
-        //            MySqlCommand command = new MySqlCommand(insert, conn);
-        //            command.ExecuteNonQuery();
-        //            return true;
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Debug.WriteLine($"Database Error (Users): Cannot enter a new user in database {e.Message}");
-        //            error = "Cannot enter a new user in database";
-        //            return false;
-        //        }
-        //    }
-        //}
+            if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(email) || String.IsNullOrEmpty(firstName) || String.IsNullOrEmpty(lastName) || String.IsNullOrEmpty(phoneNumber) || String.IsNullOrEmpty(address) || String.IsNullOrEmpty(city) || String.IsNullOrEmpty(country))
+            {
+                error = "Not all values supplied. Could not create user account.";
+                return false;
+            }
+            using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
+            {
+                try
+                {
+                    conn.Open();
+                    string insert = "INSERT INTO User() " +
+                                    $"VALUES ('{username}','{password}','{email}','{firstName}','{lastName}','{phoneNumber}','Active','{address}','{city}','{state}','{postalCode}','{country}');";
+                    MySqlCommand command = new MySqlCommand(insert, conn);
+                    command.ExecuteNonQuery();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Database Error (Users): Cannot enter a new user in database {e.Message}");
+                    error = "Cannot enter a new user in database";
+                    return false;
+                }
+            }
+        }
+
+        public bool AddUserRole(string username, string userRole, out string error)
+        {
+            error = string.Empty;
+
+            if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(userRole))
+            {
+                error = "Not all values supplied. Could not add user role.";
+                return false;
+            }
+            using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
+            {
+                try
+                {
+                    conn.Open();
+                    string insert = "INSERT INTO UserRole() " +
+                                    $"VALUES ('{username}','{userRole}');";
+                    MySqlCommand command = new MySqlCommand(insert, conn);
+                    command.ExecuteNonQuery();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Database Error (Users): Cannot assign a role to the user {e.Message}");
+                    error = "Cannot enter a new user role in database";
+                    return false;
+                }
+            }
+        }
 
         public bool ValidateUser(string usernameInput, out string error)
         {
@@ -154,7 +183,7 @@ namespace RoboDel.Dao
 
             return user;
         }
-       
+
 
         //public User GetRegisteredInfoByEmail(string userEmail, out string error)
         //{
@@ -248,5 +277,89 @@ namespace RoboDel.Dao
         //        }
         //    }
         //}
+        public List<User> GetAllUsers(out string error)
+        {
+            error = string.Empty;
+            List<User> users = new List<User>();
+
+            using (MySqlConnection conn = new MySqlConnection(Database.ConnectionStr))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = "SELECT distinct(u.Username),  u.Password , u.Email, u.FirstName, u.LastName, u.PhoneNumber, u.Status, u.Address, u.City, u.State, u.Zip, u.Country, " +
+                                    "(SELECT Role FROM UserRole WHERE Role = 'admin' AND Username = u.Username) as Admin, " +
+                                    "(SELECT Role FROM UserRole WHERE Role = 'operator' AND Username = u.Username) as Operator,  " +
+                                    "(SELECT Role FROM UserRole WHERE Role = 'courier' AND Username = u.Username) as Courier " +
+                                    "FROM User u LEFT JOIN UserRole as ub ON u.Username = ub.Username; ";
+                    MySqlCommand command = new MySqlCommand(query, conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        User user = new User();
+                        List<String> userRoles = new List<String>();
+                        user.Username = reader.GetString("Username");
+                        user.Password = reader.GetString("Password");
+                        user.Email = reader.GetString("Email");
+                        user.FirstName = reader.GetString("FirstName");
+                        user.LastName = reader.GetString("LastName");
+                        user.PhoneNumber = reader.GetString("PhoneNumber");
+                        user.Status = reader.GetString("Status");
+                        user.Address = reader.GetString("Address");
+                        user.City = reader.GetString("City");
+                        user.Country = reader.GetString("Country");
+                        try
+                        {
+                            user.State = reader.GetString("State");
+                        }
+                        catch (Exception)
+                        { }
+                        try
+                        {
+                            user.Zip = reader.GetString("Zip");
+                        }
+                        catch (Exception)
+                        { }
+                        try
+                        {
+                            if (reader.GetString("Admin").Length > 0)
+                            {
+                                userRoles.Add(reader.GetString("Admin"));
+                            }
+                        }
+                        catch (Exception)
+                        { }
+                        try
+                        {
+                            if (reader.GetString("Courier").Length > 0)
+                            {
+                                userRoles.Add(reader.GetString("Courier"));
+                            }
+                        }
+                        catch (Exception)
+                        { }
+                        try
+                        {
+                            if (reader.GetString("Operator").Length > 0)
+                            {
+                                userRoles.Add(reader.GetString("Operator"));
+                            }
+                        }
+                        catch (Exception)
+                        { }
+                        user.Roles = userRoles;
+                        users.Add(user);
+                    }
+                    reader.Close();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Failed to get the all users {e.Message}");
+                    error = "No users";
+                }
+            }
+            return users;
+        }
+
     }
 }
