@@ -147,28 +147,30 @@
                     <th><b>Status</b></th>
                     <th><b>Restaurant</b></th>
                     <th><b>Customer</b></th>
+                    <th><b>Robot</b></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (Order order in ViewBag.allInProgressOrders)
                 {
-                    <tr>
-                        <td><a href="javascript:GetOrderDetails('@order.ID.ToString()')" style="color: blue">@order.ID</a></td>
-                        <td>@order.DateTime</td>
-                        <td>@order.PickupTime</td>
+                <tr>
+                    <td><a href="javascript:GetOrderDetails('@order.ID.ToString()')" style="color: blue">@order.ID</a></td>
+                    <td>@order.DateTime</td>
+                    <td>@order.PickupTime</td>
 
-                        @if (@order.ReadyForPickup)
-                        {
-                            <td>Yes</td>
-                        }
-                        else
-                        {
-                            <td>No</td>
-                        }
-                        <td>@order.Status</td>
-                        <td><a href="javascript:GetRestaurantDetails('@order.Restaurant.Email')" style="color: blue">@order.Restaurant.Name</a></td>
-                        <td><a href="javascript:GetCustomerDetails('@order.Customer.ID.ToString()')" style="color: blue">@order.Customer.FirstName @order.Customer.LastName </a></td>
-                    </tr>
+                    @if (@order.ReadyForPickup)
+                    {
+                        <td>Yes</td>
+                    }
+                    else
+                    {
+                        <td>No</td>
+                    }
+                    <td>@order.Status</td>
+                    <td><a href="javascript:GetRestaurantDetails('@order.Restaurant.Email')" style="color: blue">@order.Restaurant.Name</a></td>
+                    <td><a href="javascript:GetCustomerDetails('@order.Customer.ID.ToString()')" style="color: blue">@order.Customer.FirstName @order.Customer.LastName </a></td>
+                    <td><button class="btn btn-primary" type="button" onclick="GoToTeleoperate()">View</button></td>
+                </tr>
                 }
             </tbody>
         </table>
@@ -509,6 +511,20 @@
             }
         });
     }
+
+            function GoToTeleoperate() {
+        $.ajax({
+            type: "POST",
+            url: "/Teleoperate/GoToTeleoperate",
+            async: true,
+            dataType: "json",
+            data: {},
+            success: function (data) {
+                window.location.href = '/Teleoperate/Index';
+            }
+        });
+    }
+
     function AddOrder() {
         $.ajax({
             type: "POST",

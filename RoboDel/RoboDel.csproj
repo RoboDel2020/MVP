@@ -29,6 +29,7 @@
     <None Remove="Views\AdminRestaurants\" />
     <None Remove="Views\AdminRestaurants %28copy%29\" />
     <None Remove="Views\AdminAddRestaurants %28copy%29\" />
+    <None Remove="Views\Teleoperate\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\UpdateUser\" />
@@ -51,6 +52,7 @@
     <Folder Include="Views\AdminEmployees\" />
     <Folder Include="Views\AdminAddEmployees\" />
     <Folder Include="Views\AdminEditRestaurants\" />
+    <Folder Include="Views\Teleoperate\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\" />

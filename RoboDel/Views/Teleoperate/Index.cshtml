@@ -1,0 +1,441 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.7.3/nipplejs.js"></script>
+    <style>
+  .progress {
+    margin-left: 40px ;
+    padding: 3px;
+    width: 100%;
+    max-width: 100px;
+    border: 3px solid #05e35e;
+    height: 30px;
+    display:inline-block;
+
+    }
+
+    .progress .progress__battery {
+    height: 100%;
+    width: 20%;
+    background-color: rgb(241, 110, 10);
+    }
+    .progress .progress__speed {
+      height: 100%;
+      width: 40%;
+      background-color: rgb(208, 201, 3);
+      }
+      .progress .progress__kms {
+        height: 100%;
+        width: 80%;
+        background-color: rgb(32, 232, 9);
+        }
+
+    @@keyframes fill-bar {
+    from {width: 0%;}
+    to {width: 100%;}
+    }
+
+.zone_joystick {
+  @*margin-right: 200px;*@
+
+}
+
+.button1 {
+    display:flex;
+    height: 50px;
+    padding: 0;
+    background: #FF9999A8;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    overflow: hidden;
+    font-family: "Quicksand", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-left: 30px;
+  }
+
+  .button2{
+    white-space: nowrap;
+    margin-top: 67px;
+    display: inline;
+    height: 50px;
+    padding: 0;
+    background: #FFD059;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    overflow: hidden;
+    font-family: "Quicksand", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-left: 30px;
+  }
+
+
+
+
+  .button:hover {
+    background: #008168;
+  }
+
+  .button:active {
+    background: #006e58;
+  }
+
+  .button__text,
+  .button__icon {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 24px;
+    color: #fff;
+    height: 100%;
+  }
+
+  .button__icon {
+    font-size: 1.5em;
+    background: rgba(0, 0, 0, 0.08);
+  }
+
+  h1 {
+          color: green;
+      }
+
+      /* toggle in label designing */
+      .toggle {
+
+          margin-left:100px;
+          position : relative ;
+          display : inline-block;
+          width : 99px;
+          height : 50px;
+          background-color: red;
+          border-radius: 30px;
+          border: 2px solid gray;
+      }
+
+      .toggle:after {
+          content: '';
+          position: absolute;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background-color: gray;
+          top: 1px;
+          left: 1px;
+          transition:  all 0.5s;
+      }
+
+      /* Toggle text */
+      p {
+          font-family: Arial, Helvetica, sans-serif;
+          font-weight: bold;
+      }
+
+      /* Checkbox checked effect */
+      .checkbox:checked + .toggle::after {
+          left : 49px;
+      }
+
+      /* Checkbox checked toggle label bg color */
+      .checkbox:checked + .toggle {
+          background-color: green;
+      }
+
+      /* Checkbox vanished */
+      .checkbox {
+          display : none;
+      }
+
+  .vertical {
+              border-left: 2px solid black;
+              height: 80px;
+              position:absolute;
+              left: 50%;
+          }
+
+
+
+
+  .box-wrapper {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#box1 {
+    padding: 10px;
+    height: 300px;
+    line-height: 300px;
+    size: 10px;
+    border: solid 1px green
+}
+
+#box2 {
+    height: 15px;
+    padding: 8px;
+    border: solid 1px blue
+}
+
+    #box3 {
+        padding: 10px;
+        flex-grow: 15;
+        display: flex;
+        flex-direction: row;
+        border: solid 1px green height:400px;
+    }
+
+#box4 {
+    display:flex;
+    flex-grow: 15;
+    height: 400px;
+    border: solid 1px orange;
+    width: 65%
+}
+#box33 {
+    height: 400px;
+    width: 100%;
+    flex-grow: 15;
+    border: solid 1px orange
+}
+#box5 {
+
+
+    height:400px;
+    width: 80%;
+
+    flex-grow: 15;
+    border: solid 1px orange
+}
+#zone_joystick {
+    width: 15%;
+    flex-grow: 15;
+    border: solid 1px orange;
+    height:400px;
+}
+
+
+
+#box8 {
+    flex-grow: 7;
+    border: solid 1px black;
+    width: 25%;
+    height:400px;
+}
+
+.vertical {
+   display:inline;
+    border-left: 6px solid black;
+    height: 400px;
+    position:right;
+    left: 45%;
+    bottom:-700px;
+}
+
+
+
+
+.main{
+
+    overflow: hidden;
+
+}
+
+.wrapper{
+  float:left;
+}
+
+.battery:after {
+    background-color: #fff;
+    border: 2px solid #000;
+    content: "";
+    display: block;
+    height: 16px;
+    position: absolute;
+    right: -6px;
+    top: 6px;
+    width: 6px;
+}
+.battery {
+    background-color: #fff;
+    border: 2px solid #000;
+    height: 32px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    width: 100px;
+}
+
+.header {
+    overflow: hidden;
+    background-color: #f1f1f1;
+    padding: 20px 10px;
+  }
+
+  .header a {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 25px;
+    border-radius: 4px;
+  }
+
+  .header a.logo {
+    font-size: 25px;
+    font-weight: bold;
+  }
+
+  .header a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .header a.active {
+    background-color: dodgerblue;
+    color: white;
+  }
+
+  .header-right {
+    float: right;
+  }
+
+  @@media screen and (max-width: 500px) {
+    .header a {
+      float: none;
+      display: block;
+      text-align: left;
+    }
+    .header-right {
+      float: none;
+    }
+  }
+
+    </style>
+    <script type="text/javascript" type="text/javascript">
+
+        createJoystick = function () {
+            var options = {
+                zone: document.getElementById('zone_joystick'),
+                threshold: 0.1,
+                position: { top: 10, left: 10, right: 10 + '%' },
+                mode: 'static',
+                size: 150,
+                color: '#000000',
+            };
+            manager = nipplejs.create(options);
+
+            linear_speed = 0;
+            angular_speed = 0;
+
+            manager.on('start', function (event, nipple) {
+                timer = setInterval(function () {
+                    move(linear_speed, angular_speed);
+                }, 25);
+            });
+
+            manager.on('move', function (event, nipple) {
+                max_linear = 5.0; // m/s
+                max_angular = 2.0; // rad/s
+                max_distance = 75.0; // pixels;
+                linear_speed = Math.sin(nipple.angle.radian) * max_linear * nipple.distance / max_distance;
+                angular_speed = -Math.cos(nipple.angle.radian) * max_angular * nipple.distance / max_distance;
+            });
+
+            manager.on('end', function () {
+                if (timer) {
+                    clearInterval(timer);
+                }
+                self.move(0, 0);
+            });
+        }
+        window.onload = function () {
+            createJoystick();
+        }</script>
+
+    <title> Teleoperator Page </title>
+
+</head>
+<body>
+
+    
+
+    @*<button type="button" class="button1">
+        <span class="button__text">STOP</span>
+        
+    </button>*@
+
+    <input type="checkbox" id="switch" class="checkbox" />
+    <label for="switch" class="toggle">
+        <p></p>
+    </label>
+
+    
+
+    <br>
+    <br>
+    <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Battery &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Speed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;   Kms left</h3>
+    <div class="progress">
+        <div class="progress__battery"></div>
+    </div>
+    <b>46%</b>
+    <div class="progress">
+        <div class="progress__speed"></div>
+    </div>
+    <b>7 km/h</b>
+    <div class="progress">
+        <div class="progress__kms"></div>
+    </div>
+    <b>1.2 km left to go</b>
+
+
+    <div class="box-wrapper">
+        <div id="box3">
+            <div id="box4" style="background-color: black; text-align: center; vertical-align: center; color: white">
+                Robot is not connected
+                @*<img src="120.jpg" width="100%" height="300">*@
+            </div>
+
+            <div id="box8">
+                <p>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2914.328340618216!2d-89.4146761846783!3d43.07659197914529!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8807ac950a7f481d%3A0xc9e065e091733a64!2sUniversity%20of%20Wisconsin-Madison!5e0!3m2!1sen!2sin!4v1652391863790!5m2!1sen!2sin" width="100%" height="360" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </p>
+            </div>
+        </div>
+        <div id="box33">
+            <div id="box5" style="background-color: black; text-align: center; vertical-align: center; color: white">
+                Robot is not connected
+
+                @*<img src="240.jpg" width="100%" height="300">*@
+
+            </div>
+            <div id="zone_joystick"width="100%" height="300"></div>
+        </div>
+        
+
+        <br>
+    </div>
+
+
+
+
+
+
+
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    </div>
+
+</body>

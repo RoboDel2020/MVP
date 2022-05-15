@@ -81,7 +81,21 @@
                         window.location.href = '/AdminEditRestaurants/Index';
                     }
                 });
-            }</script>
+            }
+
+            function AddRestaurant() {
+                $.ajax({
+                    type: "POST",
+                    url: "/AdminAddRestaurants/GoToAddRestaurant",
+                    async: true,
+                    dataType: "json",
+                    data: { },
+                    success: function (data) {
+                        window.location.href = '/AdminAddRestaurants/Index';
+                    }
+                });
+            }
+        </script>
         <script src="~/js/jquery-3.0.0.min.js"></script>
         <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
     </div>
